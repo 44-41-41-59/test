@@ -9,13 +9,17 @@ const router = express.Router();
 // get all products from all stores by USER
 router.route('/products').get(getProducts);
 // get one product from all stores by USER/OWNER
-router.route('/products/:id').get(bearer('none'),getProductsById);
+// bearer('none'),
+router.route('/products/:id').get(getProductsById);
 // add products for each store by OWNER
-router.route('/products').post(bearer('registered'), permissions('create'), addProductsHandler);
+// bearer('registered'), permissions('create'),
+router.route('/products').post( addProductsHandler);
 // update each product by id by OWNER
-router.route('/products/:id').put(bearer('registered'), permissions('update'), updateProducts);
+// bearer('registered'), permissions('update'),
+router.route('/products/:id').put( updateProducts);
 // delete each product by id by OWNER
-router.route('/products/:id').delete(bearer('registered'), permissions('delete'), deleteProducts);
+// bearer('registered'), permissions('delete'),
+router.route('/products/:id').delete( deleteProducts);
 // get all products of a specific store
 router.route('/products/:store_id').get(getStoreProducts);
 

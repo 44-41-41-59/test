@@ -61,7 +61,8 @@ class UserCollection {
           return 'Not The same pass';
         }
       } else {
-        return { status: 401, message: 'User is not found!' };
+        // return { status: 401, message: 'User is not found!' };
+        return 'User is not found!' ;
       }
     } else {
       let record = await this.schema.find({}).populate('acl').populate('review').populate('wishlist').populate('productID').exec();
@@ -91,5 +92,5 @@ class Users extends Model  {
 
 }
 
-module.exports.userCollection = new UserCollection();
-module.exports.users = new Users();
+module.exports.UserCollection = new UserCollection();
+module.exports.User = new Users();

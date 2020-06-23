@@ -2,10 +2,13 @@
 
 const express = require('express');
 const router = express.Router();
-const { getUserWishlist, addProductsToWishlist,  updateWishlist, deleteFromWishlist} = require('./wishlist');
+const { getUserWishlist, addProductsToWishlist, deleteFromWishlist} = require('./wishlist');
 
-// get all items of wishlist for one user//post an item to the wishlist of the user
-router.route('/wishlist').get(getUserWishlist).post(addProductsToWishlist);
-router.route('/wishlist/:id').put(updateWishlist).delete(deleteFromWishlist);
+//post an item to the wishlist of the user
+router.route('/wishlist').post(addProductsToWishlist);
+// update or delete one wishlist item
+router.route('/wishlist/:id').delete(deleteFromWishlist);
+// get all items of wishlist for one user
+router.route('/wishlist/user/:userID').get(getUserWishlist);
 
 module.exports = router;

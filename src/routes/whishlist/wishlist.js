@@ -4,7 +4,7 @@ const {wishlist} = require('../../DB/collection-models');
 
 async function getUserWishlist (req,res,next){
   try{
-    let userID = req.user.id;
+    let userID = req.params.userID;
     let data = await wishlist.read({userID});
     res.json(data);
   }
@@ -23,16 +23,6 @@ async function addProductsToWishlist (req,res,next){
   }
 }
 
-async function updateWishlist(req,res,next){
-  try {
-    let id = req.params.id;
-    const data = await wishlist.update(id,req.body);
-    res.json(data);
-  } catch (e) {
-    next(e.message);
-  }
-}
-
 async function deleteFromWishlist(req,res,next){
   try {
     let id = req.params.id;
@@ -46,6 +36,5 @@ async function deleteFromWishlist(req,res,next){
 module.exports = {
   getUserWishlist,
   addProductsToWishlist,
-  updateWishlist,
   deleteFromWishlist,
 };

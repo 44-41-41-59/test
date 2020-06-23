@@ -33,7 +33,7 @@ function getAllOrders(req, res, next){
 }
 function getOneOrder(req, res, next){
   try{
-    order.read({_id:req.params.id}).then(data=> res.json(data))
+    order.read({_id:req.params.id}).then(data=> res.json({count:data.length, result:data[0]}))
       .catch(next); 
 
   } catch (e){
@@ -43,7 +43,7 @@ function getOneOrder(req, res, next){
 
 function deleteOrder(req, res, next){
   try{
-    order.delete({_id:req.params.id}).then(data=> res.json(data))
+    order.delete({_id:req.params.id}).then(data=> res.send('Deleted one order!'))
       .catch(next); 
 
   } catch (e){

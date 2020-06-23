@@ -25,9 +25,9 @@ function getOneReview(req, res, next){
 // add one review on a product or a store
 function addReview(req, res, next){
   if(req.query.productID){
-    req.body = {productID: req.query.productID};
+    req.body.productID = req.query.productID;
   } else if ( req.query.storeID){
-    req.body.storeID = req.query.storeID; //not sure
+    req.body.storeID = req.query.storeID;
   }
   review.create(req.body)
     .then(results => {

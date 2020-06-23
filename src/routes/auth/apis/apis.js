@@ -1,4 +1,5 @@
 'use strict';
+
 const {UserCollection} = require('../../../DB/users/user-model.js');
 const fetch = require('node-fetch');
 const {user} = require('../../../DB/users/user-schema.js');
@@ -52,7 +53,7 @@ async function facebookLogin(req, res) {
   if (json.id === userID) {
     //valid user
     // check if the user exists in db else register and then login
-    const resp = await user.findOne({ facebookID: userID });
+    const resp = await userSchema.findOne({ facebookID: userID });
     if (resp) {
       //user is registered then create a session
       res.json({ status: 'ok', data: 'you are logged in' });

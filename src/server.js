@@ -28,6 +28,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/auth', auth);
 // used to seed the roles into the database one time
 app.use('/seedroles', seedRoles);
+// cart routes
+app.use(cartRoutes);
 // products routes
 app.use(productsRoute);
 // reviews routes
@@ -36,8 +38,6 @@ app.use(reviewsRoute);
 app.use(storeRoutes);
 // favorite routes
 app.use(favoriteRoutes);
-// cart routes
-app.use(cartRoutes);
 // whishlist routes
 app.use(whishlistRoutes);
 app.use(pay);

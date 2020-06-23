@@ -6,7 +6,9 @@ const {getCart, getOneCart, addCart, deleteCart} = require('./cart');
 
 
 router.route('/cart').get(getCart).post(addCart);
-router.route('/cart/:id').get(getOneCart).delete(deleteCart);
+router.route('/cart/:id')
+// .get(getOneCart)
+  .delete(deleteCart);
 
 module.exports = router;
 

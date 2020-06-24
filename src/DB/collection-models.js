@@ -15,8 +15,8 @@ class Model {
     this.schema = schema;
   }
 
- async read(queryObject = {}) {
-    console.log(queryObject,'inside',this.schema)
+  async read(queryObject = {}) {
+    console.log(queryObject,'inside',this.schema);
     return await this.schema.find(queryObject);
   }
 

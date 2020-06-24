@@ -1,8 +1,8 @@
 'use strict';
 
 const express = require('express');
-const bearer = require('../../middlewares/auth/bearer');
-const permissions= require('../../middlewares/auth/authorize');
+const bearer = require('../../../middlewares/auth/bearer');
+const permissions= require('../../../middlewares/auth/authorize');
 const {
   getPaymentHistory,
   // addPaymentHistory,

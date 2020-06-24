@@ -24,7 +24,7 @@ function editOrder(req, res, next){
 }
 function getAllOrders(req, res, next){
   try{
-    order.read().then(data=> res.json({count:data.length,results:data}))
+    order.read({storeID:req.params.storeID}).then(data=> res.json({count:data.length,results:data}))
       .catch(next); 
 
   } catch (e){

@@ -1,17 +1,16 @@
 'use strict';
-
-const {UserCollection} = require('../../../DB/users/user-model.js');
+const {userCollection} = require('../../../DB/users/user-model.js'); 
 const fetch = require('node-fetch');
-const {user} = require('../../../DB/users/user-schema.js');
+const userSchema = require('../../../DB/users/user-schema.js');
 
-// sign up function 
+// sign up function
 async function signup(req, res, next) {
   let record;
   try {
-    let check = await UserCollection.read(req.body);
+    let check = await userCollection.read(req.body);
     console.log(check, 'check');
     if (check.status === 401) {
-      record = await UserCollection.create(req.body);
+      record = await userCollection.create(req.body);
       console.log(record, 'record');
       req.acl = {
         acl: record.acl.capabilities,
@@ -30,7 +29,7 @@ async function signup(req, res, next) {
 
 // sign in function
 async function signin(req, res, next) {
-  let record = await UserCollection.read(req.body);
+  let record = await userCollection.read(req.body);
   if (typeof record !== 'string') {
     req.acl = {
       acl: record.acl.capabilities,
@@ -66,7 +65,7 @@ async function facebookLogin(req, res) {
         facebookID: userID,
         userSignInType: 'facebook',
       };
-      UserCollection.create(person);
+      userCollection.create(person);
       res.json({ status: 'ok', data: 'you are registered and logged in' });
     }
   } else {

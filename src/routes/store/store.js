@@ -10,7 +10,7 @@ function getAllStores(req, res, next){
 }
 // get all stores in the website
 function getOwnerAllStores(req, res, next){
-  store.read({ownerID:req.params.owner_id}).then((data)=> res.json({count: data.length, results:data}))
+  store.read({ownerID:req.params.ownerID}).then((data)=> res.json({count: data.length, results:data}))
     .catch(next);     
 }
 // USER get one store by id

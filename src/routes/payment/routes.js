@@ -2,13 +2,14 @@
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
+const bearer = require('../../middlewares/auth/bearer');
+const permissions= require('../../middlewares/auth/authorize');
 const stripe = require('stripe')(process.env.SECERTSTRIPEKEY);
 const {cart, payment, order} = require('../../DB/collection-models');
 const payments = require('../../DB/adminPaymentHistory/admin-payment-history.model');
-// const stripe = require('stripe')(process.env.SECERTSTRIPEKEY);
 
 
-router.route('/charge').post(pay);
+router.route('/charge').post(bearer('registered'), permissions('checkoutCart'), pay);
 async function pay(req, res, next) {
   try{
     // for later bring user id from token

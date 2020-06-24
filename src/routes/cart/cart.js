@@ -4,7 +4,7 @@ const {cart} = require('../../DB/collection-models');
 
 function getCart(req, res, next) {
   // console.log(req.qurey)
-  cart.read(req.qurey).then((data) => res.json(data));
+  cart.read({userID:req.params.userID}).then((data) => res.json(data));
   // let key, cartType;
   // if (req.query.productID) {
   //   key = 'productID';
@@ -46,9 +46,19 @@ function deleteCart(req, res, next) {
     .catch(next);
 }
 
+function editCart(req, res, next) {
+  let cartID = req.params.id;
+  cart
+    .update( cartID, req.body )
+    .then((record) => {
+      res.json(record);
+    })
+    .catch(next);
+}
+
 module.exports = {
   getCart,
-  // getOneCart,
   addCart,
   deleteCart,
+  editCart,
 };

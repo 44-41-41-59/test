@@ -67,7 +67,7 @@ async function deleteProducts(req,res,next){
 
 // get all products for each store by store id by OWNER/USER
 async function getStoreProducts(req,res,next){
-  let storeProducts = await product.read({storeID: req.params.store_id});
+  let storeProducts = await product.read({storeID: req.params.storeID});
   let results = {
     count: storeProducts.length,
     results: storeProducts,

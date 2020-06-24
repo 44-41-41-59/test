@@ -8,7 +8,7 @@ function getFavorite(req, res, next){
   //   key = 'storeID';
   //   favoriteType = req.query.storeID;
   // }
-  console.log(req.body)
+  console.log(req.body);
   favorite.read({userID:req.body.userID}).then((data) => res.json({ count: data.length, results: data }))
     .catch(next);
 }
@@ -21,8 +21,8 @@ function getFavorite(req, res, next){
 
 async function addFavorite(req, res, next){
   let storeID = req.body.storeID;
- let record = await favorite.create({userID:req.body.userID,stores:storeID})
- res.json(record);
+  let record = await favorite.create({userID:req.body.userID,stores:storeID});
+  res.json(record);
   // store.read({_id:storeID}).then((data) =>{
   //   data.userID = req.body.userID;
   //   return favorite.create(data);

@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 // sign in - sign up route
 app.use('/auth', auth);
 // used to seed the roles into the database one time
-app.use('/seedroles', seedRoles);
+app.use('/admin', seedRoles);
 // cart routes
 app.use(cartRoutes);
 // products routes
@@ -49,6 +49,10 @@ app.use(pay);
 app.use(orderRoutes);
 // payment history routes
 app.use(paymentHistory);
+
+
+
+
 
 
 

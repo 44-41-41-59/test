@@ -5,7 +5,7 @@ class AdminPaymentHistory {
     this.schema = schema;
   }
   read(queryObject = {}) {
-    return this.schema.find(queryObject);
+    return this.schema.findOne(queryObject).populate('orders');
   }  
   async create(obj) {
     let record = new this.schema(obj);

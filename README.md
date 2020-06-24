@@ -4,27 +4,37 @@
 
 ## Deployed Link
 
-[DAAY-mall website](https://daay-mall.herokuapp.com/)
+[DAAY-mall website](https://daaymall-401-project.herokuapp.com/)
 
 ---
 
 ## Web Application
 
-online platform for stores where there are three types of users :
+DAAY-mall is an online platform for stores owners to display and sell their products for users all around the world in an **easy**, **efficient** and **secure** process. The website earns client’s trust with its robust system that verifies stores and a direct customers’ service that have a live chat with website admins offering a continuous feedback.
 
-An admin to verify users
-A user (store owner) can register their stores (if verified, normal users can buy from them)  
- Normal users that can shop from different stores
+Users:
 
-What problem or pain point does it solve? a. Keep it high level without going into too much detail. (3-4 sentences is enough)
-We offer store owners a platform to display their products that makes the shopping experience easier
+- Admins: 
+  * Verify stores, customers' service and manage payments and refunds.
 
-Minimum MVP definition.
-What is the minimum required for you to present on your demo day?
-• Authentication feature:
-o Sign in with Facebook and Google.
-o Normal signup and sign in.
-• Store registration
+- Owners: 
+  * Register their stores, add products, manage orders.
+
+- Registered Users:
+  * Add to cart and checkout (payment), reviews stores and products and have a favorite stores list and wish list.
+
+- Public Users:
+  * Navigate website to view stores and products.
+
+
+**Minimum MVP** 
+
+- **Authentication features**:
+  * Sign-up and sign-in with Facebook.
+  * Sign-up and sign-in with Google.
+  * Normal signup and sign in.
+
+- **Store registration**:
 o The user can add his own store to be registered and then to be verified by the admin (with the ability to shop from other stores).
 o When the store is verified the user will be the admin (owner) of his store and he can add employees (for customer service, data entry).
 o Their stores can be sub stores.

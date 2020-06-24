@@ -34,10 +34,10 @@ socket.on('connect', () => {
       massege.id === socket.id
         ? console.log(' ' + massege.message)
         : console.log(
-            '\x1b[33m%s\x1b[0m',
-            '                                                   ' +
-              massege.message
-          );
+          '\x1b[33m%s\x1b[0m',
+          '                                                   ' +
+              massege.message,
+        );
     });
     console.log('');
   });
@@ -54,15 +54,14 @@ socket.on('connect', () => {
     ]);
     const command = response.text.toLowerCase().split(' ')[0];
     switch (command) {
-      case 'quit':
-        socket.emit('userDisconnected', { room });
-        process.exit();
-        break;
-        s;
-      default:
-        socket.emit('massege', room, response.text, socket.id);
-        getInput();
-        break;
+    case 'quit':
+      socket.emit('userDisconnected', { room });
+      process.exit();
+      break;
+    default:
+      socket.emit('massege', room, response.text, socket.id);
+      getInput();
+      break;
     }
     // socket.emit('message', `${response.text}`);
     // getInput();

@@ -23,13 +23,13 @@ socket.on('connect', async () => {
 
     const command = response.text.toLowerCase().split(' ')[0];
     switch (command) {
-      case 'y':
-        socket.emit('next', room);
-        break;
-      case 'n':
-        socket.emit('admindisconecct', room);
-        process.exit();
-        break;
+    case 'y':
+      socket.emit('next', room);
+      break;
+    case 'n':
+      socket.emit('admindisconecct', room);
+      process.exit();
+      break;
     }
   });
 
@@ -40,10 +40,10 @@ socket.on('connect', async () => {
       massege.id === socket.id
         ? console.log(' ' + massege.message)
         : console.log(
-            '\x1b[33m%s\x1b[0m',
-            '                                                   ' +
-              massege.message
-          );
+          '\x1b[33m%s\x1b[0m',
+          '                                                   ' +
+              massege.message,
+        );
     });
     console.log('');
   });
@@ -69,10 +69,10 @@ socket.on('connect', async () => {
     ]);
     const command = response.text.toLowerCase().split(' ')[0];
     switch (command) {
-      case 'quit':
-        socket.emit('userDisconnected', { room });
-        process.exit();
-        break;
+    case 'quit':
+      socket.emit('userDisconnected', { room });
+      process.exit();
+      break;
       // case 'y':
       //   socket.emit('next', room);
       //   break;
@@ -80,10 +80,10 @@ socket.on('connect', async () => {
       //   socket.emit('admindisconecct', room);
       //   process.exit();
       //   break;
-      default:
-        socket.emit('massege', room, response.text, socket.id);
-        getInput();
-        break;
+    default:
+      socket.emit('massege', room, response.text, socket.id);
+      getInput();
+      break;
     }
     // socket.emit('message', `${response.text}`);
     // getInput();

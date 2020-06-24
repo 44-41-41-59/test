@@ -3,7 +3,8 @@
 const {cart} = require('../../DB/collection-models');
 
 function getCart(req, res, next) {
-  cart.read(req.qurey).then((data) => res.json(data));
+  // console.log(req.qurey)
+  cart.read({userID:req.params.userID}).then((data) => res.json(data));
   // let key, cartType;
   // if (req.query.productID) {
   //   key = 'productID';
@@ -15,12 +16,12 @@ function getCart(req, res, next) {
   //   .catch(next);
 }
 
-function getOneCart(req, res, next) {
-  cart
-    .read({ _id: req.params.id })
-    .then((data) => res.json({ count: data.length, results: data }))
-    .catch(next);
-}
+// function getOneCart(req, res, next) {
+//   cart
+//     .read({ _id: req.params.id })
+//     .then((data) => res.json({ count: data.length, results: data }))
+//     .catch(next);
+// }
 
 function addCart(req, res, next) {
   // if ( req.query.productID){
@@ -35,10 +36,20 @@ function addCart(req, res, next) {
 }
 
 function deleteCart(req, res, next) {
-  let userID = req.params.id;
-  console.log(userID);
+  let cartID = req.params.id;
+  console.log(cartID);
   cart
-    .delete({ userID })
+    .delete( cartID )
+    .then((record) => {
+      res.json(record);
+    })
+    .catch(next);
+}
+
+function editCart(req, res, next) {
+  let cartID = req.params.id;
+  cart
+    .update( cartID, req.body )
     .then((record) => {
       res.json(record);
     })
@@ -47,7 +58,7 @@ function deleteCart(req, res, next) {
 
 module.exports = {
   getCart,
-  getOneCart,
   addCart,
   deleteCart,
+  editCart,
 };

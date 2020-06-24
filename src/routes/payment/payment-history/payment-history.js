@@ -3,7 +3,7 @@ const {payement} = require('../../../DB/collection-models');
 
 // get all of the payment history for one user
 function getPaymentHistory(req, res, next){
-  payement.read({userID:req.params.user_id}).then(data=> res.json({count:data.length, results:data}));
+  payement.read({userID:req.params.userID}).then(data=> res.json({count:data.length, results:data}));
 }
 // add one item to the payment history
 function addPaymentHistory(req, res, next){

@@ -1,15 +1,22 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
+const bearer = require('../../../middlewares/auth/bearer');
+const permissions= require('../../../middlewares/auth/authorize');
 
 const { addOrder, editOrder, getAllOrders, getOneOrder, deleteOrder } = require('./orders.js');
 
-// create a new order when the user checkout and make a payment, this will post an order to the store and payment history for the user.
-// update the order in both the order list and payment history (user or owner update it)
-// the orders can't be deleted but rather cancelled
+// get all orders for one store // the 
+router.route('/order/store/:storeID').get(bearer('registered'), permissions('readOrders'), getAllOrders);
+//patch order by ID to change its status only
+router.route('/order/:id').patch(bearer('registered'), permissions('updateOrder'), editOrder);
+// get one order by ID
+router.route('/order/:id').get(bearer('registered'), permissions('readOrders'),getOneOrder);
+// delete one order by ID
+router.route('/order/:id').delete(bearer('registered'), permissions('deleteOrder'), deleteOrder);
 
-router.route('/order').post(addOrder).get(getAllOrders);
-router.route('/order/:id').put(editOrder).patch(editOrder).get(getOneOrder).delete(deleteOrder);
+// skip: will be added when the cart is charger 
+// router.route('/order').post(addOrder);
 
 module.exports = router;
 

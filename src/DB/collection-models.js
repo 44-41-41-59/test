@@ -1,5 +1,5 @@
 'use strict';
-
+ 
 const favoriteSchema = require('./schemas/favorite-schema');
 const cartSchema = require('./schemas/cart-schema');
 const productSchema=require('./schemas/product-schema');
@@ -15,8 +15,9 @@ class Model {
     this.schema = schema;
   }
 
-  read(queryObject = {}) {
-    return this.schema.find(queryObject);
+  async read(queryObject = {}) {
+    console.log(queryObject,'inside',this.schema);
+    return await this.schema.find(queryObject);
   }
 
   create(record) {

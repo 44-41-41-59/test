@@ -6,9 +6,16 @@ const Roles = require('../../../DB/schemas/roles');
 router.route('/post/roles').post(async (req, res, next) => {
   try {
     let roles = {
-      user: ['createReview', 'createCart'],
-      owner: ['read', 'create', 'delete', 'updata'],
-      admin: ['read', 'create', 'update', 'delete', 'updateStoreStatus', 'readPendingStores'],
+      user: ['addToWishlist', 'deleteFromWishlist', 'addReview', 'updateReview',
+        'deleteReview', 'checkoutCart', 'readPaymentHistory', 
+        'deletePaymentHistory', 'addToFavorite', 'deleteFromFavorite',
+        'addCart', 'updateCart', 'deleteCart', 'readUserCart',
+      ],
+      owner: [
+        'createStore', 'updateStore', 'deleteStore', 'createProduct', 'updateProduct', 'deleteProduct', 'readOrders', 'updateOrder', 'deleteOrder',
+      ],
+      admin: ['deleteStore', 'updateStoreStatus', 'readPendingStores', 'readOrders',
+      ],
     };
     for (let key in roles) {
       let record = new Roles({ role: key, capabilities: roles[key] });

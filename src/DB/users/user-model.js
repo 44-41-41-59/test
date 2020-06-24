@@ -84,12 +84,11 @@ class Users extends Model  {
   }
 
   generateToken(user){
-  // console.log('-----------------',user.acl);
     const token = jwt.sign({username: user.username ,id:user._id, exp: Math.floor(Date.now() / 1000) + (15 * 60),capabilities:user.acl ? user.acl.capabilities : [],type: user.type || 'user'}, SECRET);
     return token;
   }
 
 }
 
-module.exports = new UserCollection();
-module.exports = new Users();
+module.exports.userCollection = new UserCollection();
+module.exports.users = new Users();

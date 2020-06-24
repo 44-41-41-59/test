@@ -2,11 +2,14 @@
 
 const express = require('express');
 const router = express.Router();
-const {getFavorite, getOneFavorite, addFavorite, deleteFavorite} = require('./favorites');
+const bearer = require('../../middlewares/auth/bearer');
+const permissions= require('../../middlewares/auth/authorize');
+const {getFavorite, addFavorite, deleteFavorite} = require('./favorites');
 
 
-router.route('/favorite').get(getFavorite).post(addFavorite);
-// router.route('/favorite/:id').get(getOneFavorite).delete(deleteFavorite);
+router.route('/favorite').post(bearer('registered'), permissions('addToFavorite'), addFavorite);
+router.route('/favorite/:id').delete(bearer('registered'), permissions('deleteFromFavorite'), deleteFavorite);
+router.route('/favorite/user/:userID').get(getFavorite);
 
 module.exports = router;
 

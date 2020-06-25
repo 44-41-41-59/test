@@ -11,17 +11,15 @@ const reviewsRoute = require('./routes/reviews/router.js');
 const storeRoutes = require('./routes/store/routes.js');
 const favoriteRoutes = require('./routes/favorite/routes.js');
 const cartRoutes = require('./routes/cart/routes.js');
-const whishlistRoutes=require('./routes/whishlist/routes.js');
+const whishlistRoutes = require('./routes/whishlist/routes.js');
 const pay = require('./routes/payment/routes.js');
 const orderRoutes = require('./routes/store/orders/routes.js');
 const paymentHistory = require('./routes/payment/payment-history/routes.js');
 
-
 const app = express();
 
 const server = require('http').Server(app);
-const io = require('socket.io')(server); 
-
+const io = require('socket.io')(server);
 
 app.use(express.json());
 app.use(morgan('dev'));
@@ -50,30 +48,20 @@ app.use(orderRoutes);
 // payment history routes
 app.use(paymentHistory);
 
-
-
-
-
-
-
-
 app.use('*', notFound);
 app.use(errorHandeler);
 
 module.exports = {
-  server: app,
+  server: server,
   start: (port) => {
     server.listen(port);
-    // app.listen(port, () => console.log(`Hearing from port -> ${port}`));
   },
 };
-
 
 let clientsQueue = [];
 let custmerRoom = {};
 io.on('connection', (socket) => {
   socket.on('massege', (room, message, id) => {
-    console.log(room);
     io.in(room).emit('masseage', { message, id });
   });
 
@@ -83,7 +71,6 @@ io.on('connection', (socket) => {
   socket.on('admin', (name, room) => {
     custmerRoom[room] = { status: true, name };
     socket.join(room);
-    console.log(custmerRoom);
     setTimeout(() => {
       loop();
     }, 1000);
@@ -96,7 +83,6 @@ io.on('connection', (socket) => {
   });
   socket.on('admindisconecct', (room) => {
     delete custmerRoom[room];
-    console.log(custmerRoom);
   });
   socket.on('userConnected', async (name) => {
     clientsQueue.push(socket);
@@ -105,10 +91,7 @@ io.on('connection', (socket) => {
   });
   socket.on('userDisconnected', (room) => {
     socket.leave(room.room);
-
     io.in(room.room).emit('next', room.room);
-
-    console.log(custmerRoom);
   });
 });
 
@@ -121,7 +104,6 @@ function loop() {
         socket.join(room);
         socket.emit('joinded', { room, name });
         custmerRoom[room].status = false;
-        console.log('sreved', custmerRoom);
         return room;
       }
     }

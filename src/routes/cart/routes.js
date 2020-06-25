@@ -13,7 +13,7 @@ router.route('/cart/:id').put(bearer('registered'), permissions('updateCart'), e
 //delete cart item
 router.route('/cart/:id').delete(bearer('registered'), permissions('deleteCart'), deleteCart);
 // get all cart items for one user
-router.route('/cart/user/:userID').get(bearer('registered'), permissions('readUserCart'), getCart);
+router.route('/cart/user').get(bearer('registered'), permissions('readUserCart'), getCart);
 
 module.exports = router;
 

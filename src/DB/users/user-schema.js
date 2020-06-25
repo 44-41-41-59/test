@@ -91,7 +91,6 @@ user.pre('save', async function (next) {
 
 // post save hook for populating with capabilities
 user.post('save', async function (next) {
-  console.log('post save');
   await this.populate('acl').execPopulate();
   // next();
 });

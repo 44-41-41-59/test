@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const uuid = require('uuid').v4;
 const io = require('socket.io-client');
 const inquirer = require('inquirer');
@@ -13,12 +14,12 @@ socket.on('connect', () => {
   });
 
   socket.on('wait', () => {
-    console.log('\x1b[47m', 'please wait will be with u soon');
+    console.log('Please wait, one of our agents will be with you soon.');
   });
   socket.emit('userConnected', name);
   socket.on('joinded', (currentRoom) => {
     room = currentRoom.room;
-    console.log('\x1b[44m', 'hello u was served with ' + currentRoom.name);
+    console.log("Hello I'm " + currentRoom.name + ', how can I help?');
   });
   socket.on('news', (data) => {
     console.log(data);
@@ -34,10 +35,9 @@ socket.on('connect', () => {
       massege.id === socket.id
         ? console.log(' ' + massege.message)
         : console.log(
-          '\x1b[33m%s\x1b[0m',
-          '                                                   ' +
-              massege.message,
-        );
+            '\x1b[33m%s\x1b[0m',
+            '                              ' + massege.message
+          );
     });
     console.log('');
   });
@@ -54,14 +54,14 @@ socket.on('connect', () => {
     ]);
     const command = response.text.toLowerCase().split(' ')[0];
     switch (command) {
-    case 'quit':
-      socket.emit('userDisconnected', { room });
-      process.exit();
-      break;
-    default:
-      socket.emit('massege', room, response.text, socket.id);
-      getInput();
-      break;
+      case 'quit':
+        socket.emit('userDisconnected', { room });
+        process.exit();
+        break;
+      default:
+        socket.emit('massege', room, response.text, socket.id);
+        getInput();
+        break;
     }
     // socket.emit('message', `${response.text}`);
     // getInput();

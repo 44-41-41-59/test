@@ -4,7 +4,7 @@ const { Schema, model } = require('mongoose');
 // console.log(reviews);
 const Product = new Schema({
   name: { type: String, required: true },
-  price: { type: String, required: true },
+  price: { type: Number, required: true },
   images: { type: Array },
   amount: { type: Number },
   description: { type: String },

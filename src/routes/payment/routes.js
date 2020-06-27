@@ -10,13 +10,14 @@ const payments = require('../../DB/adminPaymentHistory/admin-payment-history.mod
 
 router
   .route('/charge')
-  .post(bearer('registered'), permissions('checkoutCart'), pay);
+  // bearer('registered'), permissions('checkoutCart'), //// add them
+  .post( pay);
 async function pay(req, res, next) {
   // try {
   //   // for later bring user id from token
   //   let obj = {};
   //   let storeProductIDs = [];
-  let amount = 500; // it should be called amount for stripe DONT change it
+  let amount = 2500; // it should be called amount for stripe DONT change it
   //   let cartArr = await cart.test(req.user.id); // array of object(cart based on user populated with products)
   //   cartArr.forEach((element) => {
   //     storeProductIDs.push(element.products._id);

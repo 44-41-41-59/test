@@ -30,8 +30,8 @@ const store = new mongoose.Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 store.pre('find',function (){
-  this.populate('reviews').populate('products').populate('orders')
-})
+  this.populate('reviews').populate('products').populate('orders');
+});
 
 // reviews virtuals to get reviews from reviews collection
 store.virtual('reviews', {

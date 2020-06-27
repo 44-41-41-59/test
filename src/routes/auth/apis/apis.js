@@ -1,5 +1,6 @@
+/* eslint-disable comma-dangle */
 'use strict';
-const {userCollection} = require('../../../DB/users/user-model.js'); 
+const { userCollection } = require('../../../DB/users/user-model.js');
 const fetch = require('node-fetch');
 const userSchema = require('../../../DB/users/user-schema.js');
 
@@ -8,16 +9,13 @@ async function signup(req, res, next) {
   let record;
   try {
     let check = await userCollection.read(req.body);
-    console.log(check, 'check');
     if (check.status === 401) {
       record = await userCollection.create(req.body);
-      console.log(record, 'record');
       req.acl = {
         acl: record.acl.capabilities,
       };
 
       res.json({ data: record, acl: req.acl });
-
     } else {
       throw Error('user already signed up');
     }
@@ -37,17 +35,17 @@ async function signin(req, res, next) {
     res.cookie('token', record.token);
 
     res.json({ data: record, acl: req.acl });
-
   } else {
     next(record);
   }
 }
 
-// facebook login function 
+// facebook login function
 async function facebookLogin(req, res) {
   const { accessToken, userID } = req.body;
   const response = await fetch(
-    `https://graph.facebook.com/v7.0/10216983614326453/?access_token=${accessToken}&fields=id%2Cname%2Cemail%2Cpicture&method=get&pretty=0&sdk=joey&suppress_http_code=1`);
+    `https://graph.facebook.com/v7.0/10216983614326453/?access_token=${accessToken}&fields=id%2Cname%2Cemail%2Cpicture&method=get&pretty=0&sdk=joey&suppress_http_code=1`
+  );
   const json = await response.json();
   if (json.id === userID) {
     //valid user
@@ -74,10 +72,9 @@ async function facebookLogin(req, res) {
   }
 }
 
-function googleLogin (req, res){
+function googleLogin(req, res) {
   res.json({ token: req.token, user: req.user });
 }
-
 
 module.exports = {
   signin,

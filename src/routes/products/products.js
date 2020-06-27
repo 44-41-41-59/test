@@ -1,14 +1,15 @@
 'use strict';
 
-const {product} = require('../../DB/collection-models');
-const viewedModel=require('../../DB/viewed/viewed-model');
+const { product } = require('../../DB/collection-models');
+const viewedModel = require('../../DB/viewed/viewed-model');
 
 // add products for each store by OWNER
-function addProductsHandler(req,res){
-  console.log(req.user);
-  product.create(req.body).then((data) => {
-    res.json(data);
-  })
+function addProductsHandler(req, res) {
+  product
+    .create(req.body)
+    .then((data) => {
+      res.json(data);
+    })
     .catch((err) => res.status(403).send(err.message));
 }
 
@@ -25,29 +26,27 @@ async function getProducts(req, res, next) {
 
 // get one product by id by USER/OWNER
 async function getProductsById(req, res, next) {
-  let products = await product.read({_id:req.params.id});
+  let products = await product.read({ _id: req.params.id });
   let result = {
     count: products.length,
     results: products,
   };
-  console.log(req.user);
-  if(req.user){
-    if (req.user.id){
-      products.userID=req.user.id;
+  if (req.user) {
+    if (req.user.id) {
+      products.userID = req.user.id;
       let viewed = await viewedModel.create(products);
       res.json(viewed);
     }
-  }
-  else{
+  } else {
     res.json(result);
   }
 }
 
 // update each product by id by OWNER
-async function updateProducts(req,res,next){
+async function updateProducts(req, res, next) {
   try {
     let id = req.params.id;
-    const data = await product.update(id,req.body);
+    const data = await product.update(id, req.body);
     res.json(data);
   } catch (e) {
     next(e.message);
@@ -55,7 +54,7 @@ async function updateProducts(req,res,next){
 }
 
 // delete each product by id by OWNER
-async function deleteProducts(req,res,next){
+async function deleteProducts(req, res, next) {
   try {
     let id = req.params.id;
     await product.delete(id);
@@ -66,8 +65,8 @@ async function deleteProducts(req,res,next){
 }
 
 // get all products for each store by store id by OWNER/USER
-async function getStoreProducts(req,res,next){
-  let storeProducts = await product.read({storeID: req.params.storeID});
+async function getStoreProducts(req, res, next) {
+  let storeProducts = await product.read({ storeID: req.params.storeID });
   let results = {
     count: storeProducts.length,
     results: storeProducts,

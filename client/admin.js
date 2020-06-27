@@ -12,12 +12,14 @@ socket.on('connect', async () => {
   socket.on('next', async (room) => {
     console.clear();
     masseges = [];
-    console.log('the user was end the chat do u want have the next client y/n');
+    console.log(
+      'The chat was ended. Do you want to start a new chat with the next client? y/n'
+    );
     const response = await inquirer.prompt([
       {
         prefix: '',
         name: 'text',
-        message: `--bobo---\n`,
+        message: `\n`,
       },
     ]);
 
@@ -41,8 +43,7 @@ socket.on('connect', async () => {
         ? console.log(' ' + massege.message)
         : console.log(
             '\x1b[33m%s\x1b[0m',
-            '                                                   ' +
-              massege.message
+            '                                  ' + massege.message
           );
     });
     console.log('');

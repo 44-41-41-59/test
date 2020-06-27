@@ -1,14 +1,13 @@
 'use strict';
- 
+
 const favoriteSchema = require('./schemas/favorite-schema');
 const cartSchema = require('./schemas/cart-schema');
-const productSchema=require('./schemas/product-schema');
+const productSchema = require('./schemas/product-schema');
 const reviewsSchema = require('./schemas/reviews-schema');
 const storeSchema = require('./schemas/store-schema');
-const orderSchema  = require('./schemas/ordering-schema');
+const orderSchema = require('./schemas/ordering-schema');
 const paymentHistorySchema = require('./schemas/payment-history.schema');
 const wishlistSchema = require('./schemas/wishlist-schema');
-
 
 class Model {
   constructor(schema) {
@@ -16,12 +15,10 @@ class Model {
   }
 
   async read(queryObject = {}) {
-    console.log(queryObject,'inside',this.schema);
     return await this.schema.find(queryObject);
   }
 
   create(record) {
-   
     let newRecord = new this.schema(record);
     return newRecord.save();
   }

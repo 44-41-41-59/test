@@ -33,6 +33,8 @@ const user = Schema(
     facebookID: { type: String },
     token: { type: String },
     paymentsHistory: [{ type: Schema.Types.ObjectId, ref: 'paymintsHistory' }],
+    confirmed: { type: Boolean, default: false },
+    resetToken: { type: String, default: '' },
   },
   { toObject: { virtuals: true } },
   { toJSON: { virtuals: true } }

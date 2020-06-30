@@ -9,14 +9,20 @@ const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET || 'daayMallToken';
 const bcrypt = require('bcryptjs');
 
+/// the data that nodemailer need ot send the emails its your email and your password
 let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'eng.yazanalaiwah@gmail.com',
-    pass: 'yazan55235570',
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD,
   },
 });
 
+/**
+ * the email will be send in forget password request
+ * @param {String} token the token that have the id of the user
+ * @param {String} name name of the user
+ */
 function resetPasswordOutPut(token, name) {
   return `
   <h1>Hello ${name}, We are Daay-mall team!</h1>
@@ -26,15 +32,10 @@ function resetPasswordOutPut(token, name) {
 `;
 }
 
-function getEmailToken(email) {
-  const userToken = jwt.sign({ email }, SECRET, { expiresIn: '1d' });
-  return userToken;
-}
-function getUserIdToken(id) {
-  const userToken = jwt.sign({ id }, SECRET, { expiresIn: '1d' });
-  return userToken;
-}
-
+/**
+ * the email will be send in confirm email request
+ * @param {String} token the token that have user email
+ */
 function EmailOutPut(token) {
   return `
   <h1>Welcome!</h1>
@@ -42,7 +43,29 @@ function EmailOutPut(token) {
   <a href='http://localhost:3000/auth/confirmtion/${token}'>Verify My Email</a>
 `;
 }
+/**
+ * generate a toke that have user email as value
+ * @param {String} email
+ */
 
+function getEmailToken(email) {
+  const userToken = jwt.sign({ email }, SECRET, { expiresIn: '1d' });
+  return userToken;
+}
+/**
+ * generate a toke that have user id as value
+ * @param {String} email
+ */
+function getUserIdToken(id) {
+  const userToken = jwt.sign({ id }, SECRET, { expiresIn: '1d' });
+  return userToken;
+}
+/**
+ * this the data that the nodemailer need to send the email for  reset password
+ * @param {String} id id of the user
+ * @param {String} email email of the user
+ * @param {String} name name of the suer
+ */
 function getMailOptionsForResetPassword(id, email, name) {
   let userIdToken = getUserIdToken(id);
   return {
@@ -53,7 +76,10 @@ function getMailOptionsForResetPassword(id, email, name) {
     html: resetPasswordOutPut(userIdToken, name), // html body
   };
 }
-
+/**
+ * this the data that the nodemailer need to send the email for confirm email
+ * @param {String} email user email
+ */
 function getMailOptionsForConfirmEmail(email) {
   let emailToken = getEmailToken(email);
   return {
@@ -63,6 +89,53 @@ function getMailOptionsForConfirmEmail(email) {
     text: 'Hello world?', // plain text body
     html: EmailOutPut(emailToken), // html body
   };
+}
+
+async function confirmUser(req, res, next) {
+  try {
+    const userEmail = await jwt.verify(req.params.token, SECRET);
+    let record = await userCollection.update(
+      { email: userEmail.email },
+      { confirmed: true }
+    );
+    console.log(record);
+    res.send(record);
+  } catch (e) {
+    next({ status: 400, message: e.message });
+  }
+}
+async function forgetPassword(req, res, next) {
+  try {
+    /// will have just the email in the body
+    let { _id, email, username } = await userCollection.readForResetPassword(
+      req.body
+    );
+    /**
+     * you may update the resettoken in DB for more secure in future
+     */
+    let mailRecorde = await transporter.sendMail(
+      getMailOptionsForResetPassword(_id, email, username)
+    );
+    res.send('the email was send to your email');
+  } catch (e) {
+    next({ status: 401, message: e });
+  }
+}
+function sendResetPasswordForm(req, res, next) {
+  //// its should send the the reset form with the token or user information ask the team what is better
+  res.send('the form will be update the password');
+}
+
+async function resetPassword(req, res, next) {
+  try {
+    //// you may change it if the data is not the token will be know in the front-end
+    let userID = await jwt.verify(req.body.token, SECRET);
+    let password = await bcrypt.hash(req.body.password, 6);
+    let record = await userCollection.update({ _id: userID.id }, { password });
+    res.json(record);
+  } catch (e) {
+    next({ status: 500, message: e.message });
+  }
 }
 
 // sign up function
@@ -135,54 +208,6 @@ async function facebookLogin(req, res) {
 
 function googleLogin(req, res) {
   res.json({ token: req.token, user: req.user });
-}
-
-async function confirmUser(req, res, next) {
-  try {
-    const userEmail = await jwt.verify(req.params.token, SECRET);
-    console.log('token', userEmail);
-    let record = await userCollection.update(
-      { email: userEmail.email },
-      { confirmed: true }
-    );
-    console.log(record);
-    res.send(record);
-  } catch (e) {
-    next({ status: 400, message: e.message });
-  }
-}
-async function forgetPassword(req, res, next) {
-  try {
-    /// will have just the email in the body
-    let { _id, email, username } = await userCollection.readForResetPassword(
-      req.body
-    );
-    /**
-     * you may update the resettoken in DB for more secure in future
-     */
-    let mailRecorde = await transporter.sendMail(
-      getMailOptionsForResetPassword(_id, email, username)
-    );
-    res.send('helo');
-  } catch (e) {
-    next({ status: 401, message: e });
-  }
-}
-function sendResetPasswordForm(req, res, next) {
-  //// its should send the the reset form with the token or user information ask the team what is better
-  res.send('form');
-}
-
-async function resetPassword(req, res, next) {
-  try {
-    //// you may change it if the data is not the token will be know in the front-end
-    let userID = await jwt.verify(req.body.token, SECRET);
-    let password = await bcrypt.hash(req.body.password, 6);
-    let record = await userCollection.update({ _id: userID.id }, { password });
-    res.json(record);
-  } catch (e) {
-    next({ status: 500, message: e.message });
-  }
 }
 
 module.exports = {

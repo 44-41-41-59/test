@@ -52,61 +52,9 @@ app.use('*', notFound);
 app.use(errorHandeler);
 
 module.exports = {
-  server: server,
+  io,
+  server,
   start: (port) => {
     server.listen(port);
   },
 };
-
-let clientsQueue = [];
-let custmerRoom = {};
-io.on('connection', (socket) => {
-  socket.on('massege', (room, message, id) => {
-    io.in(room).emit('masseage', { message, id });
-  });
-
-  socket.on('error', (payload) => {
-    console.log('error', payload);
-  });
-  socket.on('admin', (name, room) => {
-    custmerRoom[room] = { status: true, name };
-    socket.join(room);
-    setTimeout(() => {
-      loop();
-    }, 1000);
-  });
-  socket.on('next', (room) => {
-    if (custmerRoom[room]) custmerRoom[room].status = true;
-    setTimeout(() => {
-      loop();
-    }, 1000);
-  });
-  socket.on('admindisconecct', (room) => {
-    delete custmerRoom[room];
-  });
-  socket.on('userConnected', async (name) => {
-    clientsQueue.push(socket);
-
-    if (!loop()) socket.emit('wait', {});
-  });
-  socket.on('userDisconnected', (room) => {
-    socket.leave(room.room);
-    io.in(room.room).emit('next', room.room);
-  });
-});
-
-function loop() {
-  if (clientsQueue.length) {
-    for (let room in custmerRoom) {
-      if (custmerRoom[room].status) {
-        let name = custmerRoom[room].name;
-        let socket = clientsQueue.shift();
-        socket.join(room);
-        socket.emit('joinded', { room, name });
-        custmerRoom[room].status = false;
-        return room;
-      }
-    }
-    return false;
-  }
-}

@@ -10,8 +10,7 @@ const payments = require('../../DB/adminPaymentHistory/admin-payment-history.mod
 
 router
   .route('/charge')
-  // bearer('registered'), permissions('checkoutCart'), //// add them
-  .post( pay);
+  .post(bearer('registered'), permissions('checkoutCart'), pay);
 async function pay(req, res, next) {
   // try {
   //   // for later bring user id from token
@@ -65,7 +64,6 @@ async function pay(req, res, next) {
       });
     })
     .then((charge) => {
-
       res.send('done');
     })
     .catch((e) => next({ status: 500, message: e.message }));

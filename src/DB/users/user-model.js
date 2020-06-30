@@ -77,6 +77,20 @@ class UserCollection {
       return record;
     }
   }
+
+  async readForResetPassword(email) {
+    try {
+      let record = await this.schema.findOne(email);
+      if (record) return Promise.resolve(record);
+      else return Promise.reject('user is not signup');
+    } catch (e) {
+      return e.message;
+    }
+  }
+  async update(obj, update) {
+    console.log(obj, 'update');
+    return await this.schema.findOneAndUpdate(obj, update, { new: true });
+  }
 }
 
 class Users extends Model {

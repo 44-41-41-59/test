@@ -1,3 +1,5 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable indent */
 const uuid = require('uuid').v4;
 const io = require('socket.io-client');
 const inquirer = require('inquirer');

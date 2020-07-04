@@ -15,9 +15,9 @@ const whishlistRoutes = require('./routes/whishlist/routes.js');
 const pay = require('./routes/payment/routes.js');
 const orderRoutes = require('./routes/store/orders/routes.js');
 const paymentHistory = require('./routes/payment/payment-history/routes.js');
-
+const ad = require('./DB/adminPaymentHistory/admin-payment-history.model.js');
 const app = express();
-
+const faker = require('faker');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 

@@ -40,7 +40,7 @@ function EmailOutPut(token) {
   return `
   <h1>Welcome!</h1>
   <p>Thanks for signing up! We just need you to verify your email address to complete setting up your account</p>
-  <a href='http://localhost:3000/auth/confirmtion/${token}'>Verify My Email</a>
+  <a href='http://localhost:3001/auth/confirmtion/${token}'>Verify My Email</a>
 `;
 }
 /**
@@ -145,6 +145,7 @@ async function signup(req, res, next) {
     let check = await userCollection.read(req.body);
     if (check.status === 401) {
       let mailRecorde = await transporter.sendMail(mailOptions);
+      console.log('hello');
       let record = await userCollection.create(req.body);
       req.acl = {
         acl: record.acl.capabilities,
@@ -161,6 +162,7 @@ async function signup(req, res, next) {
 
 // sign in function
 async function signin(req, res, next) {
+  console.log(req.body, 'hellloooo');
   let record = await userCollection.read(req.body);
   if (typeof record !== 'string') {
     req.acl = {

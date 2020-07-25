@@ -15,6 +15,7 @@ class UserCollection {
   // method to create new users
   async create(userInfo) {
     let that = this;
+    console.log('hello');
     return new Promise(function (res, rej) {
       try {
         let user = new that.schema(userInfo);
@@ -23,8 +24,12 @@ class UserCollection {
           .then((data) => {
             return res(data.populate('acl').execPopulate());
           })
-          .catch((e) => rej(new Error({ status: 500, message: e.message })));
+          .catch((e) => {
+            console.log(e.message);
+            rej(new Error({ status: 500, message: e.message }));
+          });
       } catch (e) {
+        console.log(e.message, 'bsbs');
         rej(
           new Error({ status: 500, message: 'Error in creating a new user.' })
         );

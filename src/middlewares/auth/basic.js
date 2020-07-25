@@ -6,6 +6,7 @@ module.exports = (req, res, next) => {
     next({ status: 401, message: 'No Header' });
   } else {
     const basic = req.headers.authorization.split(' ').pop();
+    console.log(base64.decode(basic));
     const [email, password] = base64.decode(basic).split(':');
     req.body = { email, password };
     next();

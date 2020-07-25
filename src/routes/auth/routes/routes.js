@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const BasicAuth = require('../../../middlewares/auth/basic.js');
+const Bearer = require('../../../middlewares/auth/bearer.js');
 const {
   signup,
   signin,
@@ -17,6 +18,10 @@ const oauth = require('../../../middlewares/auth/googleOauth');
 
 // sign up and sign in for users
 router.route('/').post(signup).get(BasicAuth, signin);
+router.route('/check').get(Bearer('none'), (req, res, next) => {
+  // res.json(req.user);
+  res.json({ data: req.user, acl: { acl: req.user.acl } });
+});
 // facebook login and save user data to database
 router.route('/facebook').post(facebookLogin);
 

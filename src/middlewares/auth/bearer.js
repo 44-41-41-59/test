@@ -6,14 +6,19 @@ module.exports = (type) => {
       if (type === 'none') {
         if (req.headers.authorization) {
           const [auth, token] = req.headers.authorization.split(' ');
-          if (auth === 'Bearer') {
+          if (auth === 'Bearer' && token !== 'undefined') {
             let record = await user.authenticateToken(token);
             req.user = {
               username: record.username,
-              acl: record.acl,
+              acl: record.acl.capabilities,
               capabilities: record.acl.capabilities,
               id: record._id,
+              email: record.email,
+              avatar: record.avatar,
+              role: record.role,
+              confirmed: record.confirmed,
             };
+            res.cookie('auth', record.token);
             next();
           } else {
             next();

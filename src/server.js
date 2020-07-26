@@ -6,6 +6,7 @@ const notFound = require('./middlewares/errors/not-found.js');
 const errorHandeler = require('./middlewares/errors/server-error.js');
 const auth = require('./routes/auth/routes/routes.js');
 const seedRoles = require('./routes/seedRoles/routes/routes.js');
+const seedProducts = require('./routes/products/seedProducts');
 const productsRoute = require('./routes/products/routes');
 const reviewsRoute = require('./routes/reviews/router.js');
 const storeRoutes = require('./routes/store/routes.js');
@@ -32,6 +33,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/auth', auth);
 // used to seed the roles into the database one time
 app.use('/admin', seedRoles);
+// used to seed the products into the database one time
+app.use('/admin', seedProducts);
+
 // cart routes
 app.use(cartRoutes);
 // products routes

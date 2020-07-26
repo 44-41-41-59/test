@@ -16,7 +16,7 @@ router
   .post(
     bearer('registered'),
     permissions('addToWishlist'),
-    addProductsToWishlist
+    addProductsToWishlist,
   );
 // update or delete one wishlist item // bearer // permission delete wishlist item
 router
@@ -24,7 +24,7 @@ router
   .delete(
     bearer('registered'),
     permissions('deleteFromWishlist'),
-    deleteFromWishlist
+    deleteFromWishlist,
   )
   .get(bearer('registered'), getUserWishlist);
 // get all items of wishlist for one user // public

@@ -3,7 +3,7 @@
 const { cart } = require('../../DB/collection-models');
 
 function getCart(req, res, next) {
-  cart.read({ userID: req.user.id }).then((data) => res.json(data));
+  cart.read({ userID: req.params.id }).then((data) => res.json(data));
 }
 
 function addCart(req, res, next) {

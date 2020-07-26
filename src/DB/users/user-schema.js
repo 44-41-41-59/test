@@ -118,20 +118,26 @@ user.statics.generateToken = function (id) {
 user.statics.authenticateToken = async function (token) {
   try {
     const tokenObject = await jwt.verify(token, SECRET);
-    let user = await this.find({ _id: tokenObject.id });
-    if (user[0].token !== token)
-      return Promise.reject({ message: 'Create another token!!' });
-    let newToken = this.generateToken(user[0]._id);
-    let newUser = await this.findOneAndUpdate(
-      { _id: user[0]._id },
-      { token: newToken },
-      { new: true }
-    )
+    let user = await this.findById(tokenObject.id)
       .populate('acl')
+      .populate('wishlist')
+      .populate('carts')
       .exec();
+    if (user.token !== token)
+      return Promise.reject({ message: 'Create another token!!' });
+    // let newToken = this.generateToken(user[0]._id);
+    // let newUser = await this.findOneAndUpdate(
+    //   { _id: user[0]._id },
+    //   { token: newToken },
+    //   { new: true }
+    // )
+    //   .populate('acl')
+    //   .populate('wishlist')
+    //   .populate('carts')
+    //   .exec();
 
-    if (user[0]) {
-      return Promise.resolve(newUser);
+    if (user) {
+      return Promise.resolve(user);
     } else {
       return Promise.reject({ message: 'User not found!' });
     }

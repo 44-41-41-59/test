@@ -19,7 +19,7 @@ async function getProducts(req, res, next) {
   let products = await product.read();
   let result = {
     count: products.length,
-    resultes: products,
+    results: products,
   };
   res.json(result);
 }

@@ -3,7 +3,7 @@ const { wishlist } = require('../../DB/collection-models');
 
 async function getUserWishlist(req, res, next) {
   try {
-    let userID = req.user.id;
+    let userID = req.params.id;
     let data = await wishlist.read({ userID });
     res.json(data);
   } catch (e) {

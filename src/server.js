@@ -23,7 +23,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ credentials: true }));
 app.use(morgan('dev'));
 app.use(express.static('./public'));
 app.use(express.urlencoded({ extended: true }));

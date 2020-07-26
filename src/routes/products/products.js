@@ -15,8 +15,17 @@ function addProductsHandler(req, res) {
 
 // get all products from all stores by USER
 async function getProducts(req, res, next) {
-  //   await product.creat();
-  let products = await product.read();
+  let products;
+  let searchText = req.query.searchText;
+  let category = req.query.category;
+  if (searchText) {
+    const regex = new RegExp(searchText.split('+').join(' '));
+    products = await product.read({ name: regex });
+  } else if (category) {
+    products = await product.read({ category: category.split('+').join(' ') });
+  } else {
+    products = await product.read();
+  }
   let result = {
     count: products.length,
     results: products,

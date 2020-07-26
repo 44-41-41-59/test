@@ -9,11 +9,14 @@ const { getFavorite, addFavorite, deleteFavorite } = require('./favorites');
 
 router
   .route('/favorite')
-  .post(bearer('registered'), permissions('addToFavorite'), addFavorite)
-  .get(bearer('registered'), getFavorite);
+  .post(bearer('registered'), permissions('addToFavorite'), addFavorite);
 router
   .route('/favorite/:id')
-  .delete(bearer('registered'),permissions('deleteFromFavorite'),deleteFavorite);
-
+  .delete(
+    bearer('registered'),
+    permissions('deleteFromFavorite'),
+    deleteFavorite
+  )
+  .get(bearer('registered'), getFavorite);
 
 module.exports = router;

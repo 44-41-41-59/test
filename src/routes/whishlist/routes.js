@@ -25,8 +25,8 @@ router
     bearer('registered'),
     permissions('deleteFromWishlist'),
     deleteFromWishlist
-  );
+  )
+  .get(bearer('registered'), getUserWishlist);
 // get all items of wishlist for one user // public
-router.route('/wishlist').get(bearer('registered'), getUserWishlist);
 
 module.exports = router;

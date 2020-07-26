@@ -3,11 +3,13 @@ const user = require('../../DB/users/user-schema.js');
 module.exports = (type) => {
   return async (req, res, next) => {
     try {
+      console.log('daina conosle');
       if (type === 'none') {
         if (req.headers.authorization) {
           const [auth, token] = req.headers.authorization.split(' ');
           if (auth === 'Bearer' && token !== 'undefined') {
             let record = await user.authenticateToken(token);
+            console.log(record, 'bsbs moew');
             req.user = {
               username: record.username,
               acl: record.acl.capabilities,
@@ -18,7 +20,6 @@ module.exports = (type) => {
               role: record.role,
               confirmed: record.confirmed,
             };
-            res.cookie('auth', record.token);
             next();
           } else {
             next();

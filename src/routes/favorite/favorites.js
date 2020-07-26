@@ -4,7 +4,7 @@ const { favorite, store } = require('../../DB/collection-models');
 
 function getFavorite(req, res, next) {
   favorite
-    .read({ userID: req.user.id })
+    .read({ userID: req.params.id })
     .then((data) => res.json({ count: data.length, results: data }))
     .catch(next);
 }

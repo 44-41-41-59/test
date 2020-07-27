@@ -17,6 +17,7 @@ const pay = require('./routes/payment/routes.js');
 const orderRoutes = require('./routes/store/orders/routes.js');
 const paymentHistory = require('./routes/payment/payment-history/routes.js');
 const ad = require('./DB/adminPaymentHistory/admin-payment-history.model.js');
+const advertising = require('./routes/advertising/routes.js');
 const app = express();
 const faker = require('faker');
 const cors = require('cors');
@@ -48,6 +49,7 @@ app.use(storeRoutes);
 app.use(favoriteRoutes);
 // whishlist routes
 app.use(whishlistRoutes);
+app.use(advertising);
 app.use(pay);
 // orders routes
 app.use(orderRoutes);

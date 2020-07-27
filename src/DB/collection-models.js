@@ -54,6 +54,17 @@ class ProductModel extends Model {
   constructor() {
     super(productSchema);
   }
+
+  rank() {
+    return this.schema.find({}).sort({ viwes: -1 }).limit(10);
+  }
+
+  onSeal() {
+    return this.schema.find({}).sort({ seal: -1 }).limit(10);
+  }
+  newst() {
+    return this.schema.find({}).sort({ Timestamp: -1 }).limit(10);
+  }
 }
 
 class ReviewsModel extends Model {

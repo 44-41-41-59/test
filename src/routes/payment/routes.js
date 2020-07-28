@@ -13,42 +13,7 @@ router
   .post(bearer('registered'), permissions('checkoutCart'), pay);
 async function pay(req, res, next) {
   let { token, amount } = req.body;
-  console.log(req.body, req.body.stripeEmail, 'jdfslkjkdlsf');
-  // try {
-  //   // for later bring user id from token
-  //   let obj = {};
-  //   let storeProductIDs = [];
-  // let amount = 2500; // it should be called amount for stripe DONT change it
-  //   let cartArr = await cart.test(req.user.id); // array of object(cart based on user populated with products)
-  //   cartArr.forEach((element) => {
-  //     storeProductIDs.push(element.products._id);
-  //     amount += element.products.price;
-  //     if (obj[element.products.storeID])
-  //       obj[element.products.storeID].push(element.products._id);
-  //     else obj[element.products.storeID] = [element.products._id]; // create array for the store to store the product ids
-  //   });
-  //   let savedPayment = await payment.create({
-  //     //payment history for USER
-  //     userID: req.user.id,
-  //     productID: storeProductIDs,
-  //     cost: amount,
-  //   });
-  //   let ordersIDs = [];
-  //   for (let key in obj) {
-  //     let savedOrder = await order.create({
-  //       storeID: key,
-  //       products: obj[key],
-  //       userID: req.user.id,
-  //     });
-  //     ordersIDs.push(savedOrder._id);
-  //   }
-  //   await payments.create({
-  //     //payment history for ADMIN
-  //     paymentsHistory: savedPayment._id,
-  //     userID: req.user.id,
-  //     orders: ordersIDs,
-  //   });
-  //   res.json(cartArr);
+  console.log(token.email, token.id, 'jdfslkjkdlsf');
 
   // DONT DELETE Comment-----------------------------------------
 
@@ -65,8 +30,46 @@ async function pay(req, res, next) {
         customer: customer.id,
       });
     })
-    .then((charge) => {
-      res.send('done');
+    .then(async (charge) => {
+      try {
+        // for later bring user id from token
+        let obj = {};
+        let storeProductIDs = [];
+        let cartArr = await cart.test(req.user.id); // array of object(cart based on user populated with products)
+        console.log(cartArr);
+        cartArr.forEach((element) => {
+          storeProductIDs.push(element.products._id);
+          amount += element.products.price;
+          if (obj[element.products.storeID])
+            obj[element.products.storeID].push(element.products._id);
+          else obj[element.products.storeID] = [element.products._id]; // create array for the store to store the product ids
+        });
+        let savedPayment = await payment.create({
+          //payment history for USER
+          userID: req.user.id,
+          productID: storeProductIDs,
+          cost: amount,
+        });
+        let ordersIDs = [];
+        for (let key in obj) {
+          let savedOrder = await order.create({
+            storeID: key,
+            products: obj[key],
+            userID: req.user.id,
+          });
+          ordersIDs.push(savedOrder._id);
+        }
+        await payments.create({
+          //payment history for ADMIN
+          paymentsHistory: savedPayment._id,
+          userID: req.user.id,
+          orders: ordersIDs,
+        });
+        await cart.delete(req.user.id);
+        res.json(cartArr);
+      } catch (err) {
+        next(err.message);
+      }
     })
     .catch((e) => next({ status: 500, message: e.message }));
   // } catch (e) {

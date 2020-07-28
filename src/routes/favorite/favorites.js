@@ -14,7 +14,7 @@ async function addFavorite(req, res, next) {
     let { storeID } = req.body;
     let userID = req.user.id;
     let search = await favorite.read({ userID, stores: storeID });
-    if (search.length) {
+    if (!search.length) {
       let record = await favorite.create({ userID, stores: storeID });
       res.json(record);
     } else {

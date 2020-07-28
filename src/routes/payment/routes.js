@@ -12,12 +12,13 @@ router
   .route('/charge')
   .post(bearer('registered'), permissions('checkoutCart'), pay);
 async function pay(req, res, next) {
-  console.log(req.body);
+  let { token, amount } = req.body;
+  console.log(req.body, req.body.stripeEmail, 'jdfslkjkdlsf');
   // try {
   //   // for later bring user id from token
   //   let obj = {};
   //   let storeProductIDs = [];
-  let amount = 2500; // it should be called amount for stripe DONT change it
+  // let amount = 2500; // it should be called amount for stripe DONT change it
   //   let cartArr = await cart.test(req.user.id); // array of object(cart based on user populated with products)
   //   cartArr.forEach((element) => {
   //     storeProductIDs.push(element.products._id);
@@ -53,8 +54,8 @@ async function pay(req, res, next) {
 
   stripe.customers
     .create({
-      email: req.body.stripeEmail,
-      source: req.body.stripeToken,
+      email: token.email,
+      source: token.id,
     })
     .then((customer) => {
       stripe.charges.create({

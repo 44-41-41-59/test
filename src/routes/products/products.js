@@ -46,9 +46,9 @@ async function getProductsById(req, res, next) {
       let viewed = await viewedModel.create(products);
       // res.json(viewed);
     }
-  } else {
-    res.json(result);
   }
+  console.log('hello from the get', products);
+  res.json(products);
 }
 
 // update each product by id by OWNER

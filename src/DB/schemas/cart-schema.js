@@ -4,13 +4,12 @@ const { Schema, model } = require('mongoose');
 const Cart = Schema({
   userID: { type: Schema.Types.ObjectId },
   products: { type: Schema.Types.ObjectId, ref: 'product' },
-  quantity:{type: Number},
+  quantity: { type: Number },
 });
 
-// Cart.virtual('carts', {
-//   ref: 'carts',
-//   localField: '_id',
-//   foreignField: 'productID',
-// });
+Cart.pre('find', function (next) {
+  this.populate('products');
+  next();
+});
 
 module.exports = model('cart', Cart);

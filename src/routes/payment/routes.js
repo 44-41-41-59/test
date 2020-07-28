@@ -12,6 +12,7 @@ router
   .route('/charge')
   .post(bearer('registered'), permissions('checkoutCart'), pay);
 async function pay(req, res, next) {
+  console.log(req.body);
   // try {
   //   // for later bring user id from token
   //   let obj = {};

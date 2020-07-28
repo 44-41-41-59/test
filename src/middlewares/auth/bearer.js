@@ -3,13 +3,12 @@ const user = require('../../DB/users/user-schema.js');
 module.exports = (type) => {
   return async (req, res, next) => {
     try {
-      console.log('daina conosle');
+      console.log('hello from cart');
       if (type === 'none') {
         if (req.headers.authorization) {
           const [auth, token] = req.headers.authorization.split(' ');
           if (auth === 'Bearer' && token !== 'undefined') {
             let record = await user.authenticateToken(token);
-            console.log(record, 'bsbs moew');
             req.user = {
               username: record.username,
               acl: record.acl.capabilities,
@@ -29,13 +28,13 @@ module.exports = (type) => {
         }
       } else if (type === 'registered') {
         try {
+          console.log('hello bsbsb');
           if (!req.headers.authorization) {
             next({ status: 401, message: 'Invalid Login no auth headers' });
           } else {
             const [auth, token] = req.headers.authorization.split(' ');
             if (auth === 'Bearer') {
               let record = await user.authenticateToken(token);
-              console.log(record, 'sdlkfjlkd');
 
               req.user = {
                 username: record.username,
@@ -43,17 +42,18 @@ module.exports = (type) => {
                 capabilities: record.acl.capabilities,
                 id: record._id,
               };
-              console.log(req.user, 'sdlkfjlkd');
             } else {
               next({ status: 401, message: 'Invalid auth header' });
             }
           }
           next();
         } catch (e) {
+          console.log('1');
           next({ status: 500, message: e.message });
         }
       }
     } catch (e) {
+      console.log('2');
       next(e.message);
     }
   };

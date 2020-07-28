@@ -56,13 +56,13 @@ class ProductModel extends Model {
   }
 
   rank() {
-    return this.schema.find({}).sort({ viwes: -1 }).limit(10);
+    return this.schema.find({}).sort({ views: -1 }).limit(10);
   }
 
-  onSeal() {
-    return this.schema.find({}).sort({ seal: -1 }).limit(10);
+  onSale() {
+    return this.schema.find({}).sort({ sale: -1 }).limit(10);
   }
-  newst() {
+  newest() {
     return this.schema.find({}).sort({ Timestamp: -1 }).limit(10);
   }
 }

@@ -3,6 +3,7 @@
 const { cart } = require('../../DB/collection-models');
 
 function getCart(req, res, next) {
+  console.log('hello from this');
   cart.read({ userID: req.params.id }).then((data) => res.json(data));
 }
 
@@ -18,7 +19,7 @@ function addCart(req, res, next) {
 
 function deleteCart(req, res, next) {
   let cartID = req.params.id;
-  console.log(cartID);
+  // console.log(cartID);
   cart
     .delete(cartID)
     .then((record) => {

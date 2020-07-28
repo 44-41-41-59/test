@@ -1,5 +1,6 @@
 module.exports = (err, req, res, next) => {
   res.status(400);
+  console.log(err, 'sdfds');
   res.statusMessage = 'Server Error :(';
   res.json({ err });
   // res.json({ error: err.message });

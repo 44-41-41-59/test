@@ -83,15 +83,12 @@ async function getStoreProducts(req, res, next) {
   res.json(results);
 }
 async function getMainProducts(req, res, next) {
-  console.log('hh');
   try {
     let ranked = await product.rank();
-    let onSeal = await product.onSeal();
-    let newst = await product.newst();
-    console.log(ranked);
-    res.json({ ranked, onSeal, newst });
+    let onSale = await product.onSale();
+    let newest = await product.newest();
+    res.json({ ranked, onSale, newest });
   } catch (e) {
-    console.log(e.message);
     next(e.message);
   }
 }

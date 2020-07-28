@@ -3,11 +3,13 @@
 const express = require('express');
 const router = express.Router();
 const { product } = require('../../DB/collection-models');
-const json = require('./data/one.json');
+// const fiftyProducts = require('./data/one.json');
+const oneAndFiftyOne = require('./data/two.json');
+
 
 function seedProducts(req, res, next) {
   try {
-    let productsArr = json.products;
+    let productsArr = oneAndFiftyOne.products;
     for (let key in productsArr) {
       let record = {
         name: productsArr[key].title,

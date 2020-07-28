@@ -11,4 +11,8 @@ const FavoriteStore = new Schema({
 //   localField: 'store_id',
 //   foreignField: 'storeID',
 // });
+FavoriteStore.pre('find', function (next) {
+  this.populate('stores');
+  next();
+});
 module.exports = model('favoriteStore', FavoriteStore);

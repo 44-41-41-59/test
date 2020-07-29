@@ -13,7 +13,7 @@ module.exports = (type) => {
               username: record.username,
               acl: record.acl.capabilities,
               capabilities: record.acl.capabilities,
-              id: record._id,
+              _id: record._id,
               email: record.email,
               avatar: record.avatar,
               role: record.role,
@@ -38,9 +38,13 @@ module.exports = (type) => {
 
               req.user = {
                 username: record.username,
-                acl: record.acl,
+                acl: record.acl.capabilities,
                 capabilities: record.acl.capabilities,
-                id: record._id,
+                _id: record._id,
+                email: record.email,
+                avatar: record.avatar,
+                role: record.role,
+                confirmed: record.confirmed,
               };
             } else {
               next({ status: 401, message: 'Invalid auth header' });

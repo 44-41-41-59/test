@@ -1,6 +1,6 @@
 'use strict';
 const { Schema, model } = require('mongoose');
-// const reviews = require('../subdocuments/reviews.js');
+const reviews = require('../schemas/reviews-schema');
 // console.log(reviews);
 const product = Schema(
   {
@@ -18,6 +18,7 @@ const product = Schema(
       type: Date,
       default: Date.now,
     },
+    // review: [{ type: Schema.Types.ObjectId, ref: 'review' }],
   },
   { toObject: { virtuals: true } },
   { toJSON: { virtuals: true } }
@@ -28,6 +29,7 @@ product.virtual('review', {
   localField: '_id',
   foreignField: 'productID',
 });
+
 product.virtual('like', {
   ref: 'like',
   localField: '_id',
@@ -37,7 +39,8 @@ product.virtual('like', {
 
 product.pre('find', function (next) {
   console.log('helo from pre');
-  // this.populate('like');
+  // this.populate();
+  // .populate('like');
   next();
 });
 

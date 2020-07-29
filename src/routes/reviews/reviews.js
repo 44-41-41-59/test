@@ -5,12 +5,12 @@ const { review } = require('../../DB/collection-models');
 // get reviews for one product or one store
 function getReviews(req, res, next) {
   let key, reviewType;
-  if (req.query.productID) {
+  if (req.body.productID) {
     key = 'productID';
-    reviewType = req.query.productID;
-  } else if (req.query.storeID) {
+    reviewType = req.body.productID;
+  } else if (req.body.storeID) {
     key = 'storeID';
-    reviewType = req.query.storeID;
+    reviewType = req.body.storeID;
   }
   review
     .read({ [key]: reviewType })
@@ -30,7 +30,7 @@ function getOneReview(req, res, next) {
 function addReview(req, res, next) {
   let userID = req.user.id;
   review
-    .create({...req.body,userID})
+    .create({ ...req.body, userID })
     .then((results) => {
       res.json(results);
     })

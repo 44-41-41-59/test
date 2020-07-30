@@ -12,7 +12,7 @@ const product = Schema(
     description: { type: String },
     category: { type: String },
     sale: { type: Number, default: 0 },
-    storeID: { type: Schema.Types.ObjectId, required: true },
+    storeID: { type: String, required: true },
     hidden: { type: Boolean, default: false },
     Timestamp: {
       type: Date,

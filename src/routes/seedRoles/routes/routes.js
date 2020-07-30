@@ -79,6 +79,7 @@ function rolesFunction() {
       'updateCart',
       'deleteCart',
       'readUserCart',
+      'createStore',
     ],
     owner: [
       'createStore',
@@ -96,6 +97,7 @@ function rolesFunction() {
       'updateStoreStatus',
       'readPendingStores',
       'readOrders',
+      'updateStore',
     ],
   };
 }

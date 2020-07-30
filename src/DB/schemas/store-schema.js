@@ -12,8 +12,6 @@ const store = new mongoose.Schema(
       toLowerCase: true,
       enum: ['general', 'food'],
     },
-    closing: { type: String },
-    opening: { type: String },
     images: { type: Array },
     // products: {type: Array},
     // products: [product],
@@ -24,13 +22,19 @@ const store = new mongoose.Schema(
     },
     country: { type: String, toLowerCase: true, required: true },
     city: { type: String, toLowerCase: true, required: true },
-    contactNumber: { type: Number, required: true },
-    ownerID: { type: String, required: true },
+    ownerID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
   },
-  { toJSON: { virtuals: true }, toObject: { virtuals: true } },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
-store.pre('find',function (){
-  this.populate('reviews').populate('products').populate('orders');
+store.pre('find', function () {
+  this.populate('reviews')
+    .populate('products')
+    .populate('orders')
+    .populate('ownerID');
 });
 
 // reviews virtuals to get reviews from reviews collection

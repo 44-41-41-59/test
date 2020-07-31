@@ -28,7 +28,7 @@ function getOneReview(req, res, next) {
 
 // add one review on a product or a store
 function addReview(req, res, next) {
-  let userID = req.user.id;
+  let userID = req.user._id;
   review
     .create({ ...req.body, userID })
     .then((results) => {

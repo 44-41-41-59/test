@@ -35,6 +35,7 @@ const user = Schema(
     paymentsHistory: [{ type: Schema.Types.ObjectId, ref: 'paymintsHistory' }],
     confirmed: { type: Boolean, default: false },
     resetToken: { type: String, default: '' },
+    stores: {type: String}
   },
   { toObject: { virtuals: true } },
   { toJSON: { virtuals: true } }

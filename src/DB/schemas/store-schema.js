@@ -12,9 +12,6 @@ const store = new mongoose.Schema(
       toLowerCase: true,
       enum: ['general', 'food'],
     },
-    images: { type: Array },
-    // products: {type: Array},
-    // products: [product],
     status: {
       type: String,
       default: 'pending',

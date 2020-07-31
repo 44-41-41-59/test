@@ -1,5 +1,6 @@
 'use strict';
 const { store } = require('../../DB/collection-models');
+const {users} = require('../../DB/users/user-model');
 
 // get all stores in the website
 function getAllStores(req, res, next) {
@@ -26,11 +27,21 @@ function getOneStore(req, res, next) {
 }
 // OWNER add new store
 function addStore(req, res, next) {
+  let storeData = {
+    name: req.body.name,
+    logo: req.body.logo,
+    category: req.body.category,
+    country: req.body.country,
+    city: req.body.city,
+    ownerID: req.user._id,
+  };
   try {
     store
-      .create(req.body)
+      .create(storeData)
       .then((data) => {
-        res.json(data);
+        users.update(req.user._id, {stores:data._id}).then(updated => {
+          res.json(data);
+        });
       })
       .catch(next);
   } catch (e) {

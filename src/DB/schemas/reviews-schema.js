@@ -8,8 +8,7 @@ const review = Schema({
   storeID: { type: Schema.Types.ObjectId, ref: 'store'},
   productID: { type: Schema.Types.ObjectId, ref: 'product'},
 },
-{ toObject: { virtuals: true } },
-{ toJSON: { virtuals: true } },
+{ toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
 review.pre('find', function () {

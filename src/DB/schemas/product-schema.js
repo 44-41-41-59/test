@@ -21,11 +21,10 @@ const product = Schema(
     },
     // review: [{ type: Schema.Types.ObjectId, ref: 'review' }],
   },
-  { toObject: { virtuals: true } },
-  { toJSON: { virtuals: true } },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
-product.virtual('review', {
+product.virtual('reviews', {
   ref: 'review',
   localField: '_id',
   foreignField: 'productID',
@@ -38,11 +37,9 @@ product.virtual('like', {
   count: true,
 });
 
-product.pre('find', function (next) {
-  console.log('helo from pre');
-  // this.populate();
+product.pre('find', function () {
+  this.populate('reviews');
   // .populate('like');
-  next();
 });
 
 module.exports = model('product', product);

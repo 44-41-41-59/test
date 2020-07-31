@@ -25,7 +25,7 @@ const store = new mongoose.Schema(
       required: true,
     },
   },
-  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 store.pre('find', function () {
   this.populate('reviews')

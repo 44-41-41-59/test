@@ -18,6 +18,7 @@ module.exports = (type) => {
               avatar: record.avatar,
               role: record.role,
               confirmed: record.confirmed,
+              stores:record.stores,
             };
             next();
           } else {

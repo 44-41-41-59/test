@@ -2,9 +2,9 @@
 const { Schema, model } = require('mongoose');
 
 const Cart = Schema({
-  userID: { type: Schema.Types.ObjectId },
-  products: { type: Schema.Types.ObjectId, ref: 'product' },
-  quantity: { type: Number },
+  userID: { type: Schema.Types.ObjectId,  required: true  },
+  products: { type: Schema.Types.ObjectId, ref: 'product',  required: true  },
+  quantity: { type: Number,  required: true  },
 });
 
 Cart.pre('find', function (next) {

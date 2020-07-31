@@ -9,6 +9,7 @@ const product = Schema(
     views: { type: Number, default: 0 },
     images: { type: Array },
     amount: { type: Number },
+    specs: { type: Map, of: String },
     description: { type: String },
     category: { type: String },
     sale: { type: Number, default: 0 },
@@ -21,7 +22,7 @@ const product = Schema(
     // review: [{ type: Schema.Types.ObjectId, ref: 'review' }],
   },
   { toObject: { virtuals: true } },
-  { toJSON: { virtuals: true } }
+  { toJSON: { virtuals: true } },
 );
 
 product.virtual('review', {

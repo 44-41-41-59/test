@@ -17,5 +17,9 @@ review.pre('find', function () {
   // .populate('storeID')
   // .populate('productID');
 });
+review.post('save', async function (next) {
+  await this.populate('userID').execPopulate();
+  // next();
+});
 
 module.exports = model('review', review);

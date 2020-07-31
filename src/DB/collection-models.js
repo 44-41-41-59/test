@@ -68,6 +68,9 @@ class ProductModel extends Model {
   newest() {
     return this.schema.find({}).sort({ Timestamp: -1 }).limit(10);
   }
+  async search(queryObject = {}) {
+    return await this.schema.find(queryObject).limit(10).select('name');
+  }
 }
 
 class ReviewsModel extends Model {

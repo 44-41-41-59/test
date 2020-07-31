@@ -6,7 +6,6 @@ const { product } = require('../../DB/collection-models');
 // const fiftyProducts = require('./data/one.json');
 const oneAndFiftyOne = require('./data/two.json');
 
-
 function seedProducts(req, res, next) {
   try {
     let productsArr = oneAndFiftyOne.products;
@@ -18,7 +17,8 @@ function seedProducts(req, res, next) {
         amount: productsArr[key].variants[0].inventory_quantity,
         // description: '',
         category: 'general',
-        storeID: '5ef36c9b348f300017ae7091', // make it dynamic
+        // storeID: '5ef36c9b348f300017ae7091', // make it dynamic
+        storeID: '5f21d36d90b0e550c85ccc8d', // yazoooon
         hidden: false,
       };
 
@@ -32,7 +32,4 @@ function seedProducts(req, res, next) {
 
 router.route('/seed/products').post(seedProducts);
 
-
 module.exports = router;
-
-

@@ -9,8 +9,9 @@ function getCart(req, res, next) {
 
 function addCart(req, res, next) {
   let { products, quantity } = req.body;
+  console.log(req.user._id, 'user id');
   cart
-    .create({ products, quantity, userID: req.user.id })
+    .create({ products, quantity, userID: req.user._id })
     .then((results) => {
       res.json(results);
     })

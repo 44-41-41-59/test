@@ -12,6 +12,7 @@ const {
   forgetPassword,
   sendResetPasswordForm,
   resetPassword,
+  changePassword,
 } = require('../apis/apis.js');
 const usersModel = require('../../../DB/users/user-model');
 const oauth = require('../../../middlewares/auth/googleOauth');
@@ -28,7 +29,11 @@ router.route('/facebook').post(facebookLogin);
 
 router.get('/confirmtion/:token', confirmUser);
 router.route('/resetpassword/:token').get(sendResetPasswordForm);
-router.route('/resetpassword').put(resetPassword).post(forgetPassword);
+router
+  .route('/resetpassword')
+  .put(resetPassword)
+  .post(forgetPassword)
+  .patch(Bearer('registered'), changePassword);
 // for testing the users
 router.route('/users').get((req, res, next) => {
   usersModel.read().then((data) => {

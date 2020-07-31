@@ -20,6 +20,7 @@ const ad = require('./DB/adminPaymentHistory/admin-payment-history.model.js');
 const advertising = require('./routes/advertising/routes.js');
 const app = express();
 const likes = require('./routes/likes/router.js');
+const search = require('./routes/search/router.js');
 const faker = require('faker');
 const cors = require('cors');
 const server = require('http').Server(app);
@@ -57,6 +58,7 @@ app.use(orderRoutes);
 // payment history routes
 app.use(paymentHistory);
 app.use(likes);
+app.use(search);
 
 app.use('*', notFound);
 app.use(errorHandeler);

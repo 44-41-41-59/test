@@ -212,6 +212,23 @@ function googleLogin(req, res) {
   res.json({ token: req.token, user: req.user });
 }
 
+async function changePassword(req, res, next) {
+  console.log(req.body.current, req.user.password, 'user in chagve passss');
+  try {
+    let condition = await bcrypt.compare(req.body.current, req.user.password);
+    if (!condition) return next('not the same password');
+    let password = await bcrypt.hash(req.body.newpassword, 6);
+    let record = await userCollection.update(
+      { _id: req.user._id },
+      { password }
+    );
+    res.json(record);
+  } catch (e) {
+    next(e.message);
+    console.log(e.message);
+  }
+}
+
 module.exports = {
   signin,
   signup,
@@ -221,4 +238,5 @@ module.exports = {
   forgetPassword,
   sendResetPasswordForm,
   resetPassword,
+  changePassword,
 };

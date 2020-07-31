@@ -28,7 +28,6 @@ module.exports = (type) => {
         }
       } else if (type === 'registered') {
         try {
-          console.log('hello bsbsb');
           if (!req.headers.authorization) {
             next({ status: 401, message: 'Invalid Login no auth headers' });
           } else {
@@ -45,6 +44,7 @@ module.exports = (type) => {
                 avatar: record.avatar,
                 role: record.role,
                 confirmed: record.confirmed,
+                password: record.password,
               };
             } else {
               next({ status: 401, message: 'Invalid auth header' });

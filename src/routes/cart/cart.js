@@ -8,9 +8,10 @@ function getCart(req, res, next) {
 }
 
 function addCart(req, res, next) {
+  console.log('dndndndn' , req.user);
   let { products, quantity } = req.body;
   cart
-    .create({ products, quantity, userID: req.user.id })
+    .create({ products, quantity, userID: req.user._id })
     .then((results) => {
       res.json(results);
     })

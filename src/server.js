@@ -18,6 +18,7 @@ const orderRoutes = require('./routes/store/orders/routes.js');
 const paymentHistory = require('./routes/payment/payment-history/routes.js');
 const ad = require('./DB/adminPaymentHistory/admin-payment-history.model.js');
 const advertising = require('./routes/advertising/routes.js');
+const user = require('./routes/user/route');
 const app = express();
 const likes = require('./routes/likes/router.js');
 const search = require('./routes/search/router.js');
@@ -59,6 +60,8 @@ app.use(orderRoutes);
 app.use(paymentHistory);
 app.use(likes);
 app.use(search);
+app.use(user);
+
 
 app.use('*', notFound);
 app.use(errorHandeler);

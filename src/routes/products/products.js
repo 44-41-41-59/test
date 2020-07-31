@@ -41,8 +41,8 @@ async function getProductsById(req, res, next) {
     results: products,
   };
   if (req.user) {
-    if (req.user.id) {
-      products.userID = req.user.id;
+    if (req.user._id) {
+      products.userID = req.user._id;
       let viewed = await viewedModel.create(products);
       // res.json(viewed);
     }

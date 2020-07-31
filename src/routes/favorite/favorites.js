@@ -12,7 +12,7 @@ function getFavorite(req, res, next) {
 async function addFavorite(req, res, next) {
   try {
     let { storeID } = req.body;
-    let userID = req.user.id;
+    let userID = req.user._id;
     let search = await favorite.read({ userID, stores: storeID });
     if (!search.length) {
       let record = await favorite.create({ userID, stores: storeID });

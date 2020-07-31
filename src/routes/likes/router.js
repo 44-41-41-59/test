@@ -10,15 +10,14 @@ const router = express.Router();
 const addLike = async (req, res, next) => {
   try {
     let record = '';
-    console.log(req.user.id, req.body.productID);
     if (req.body.productID) {
       record = new Like({
-        userID: req.user.id,
+        userID: req.user._id,
         productID: req.body.productID,
       });
     } else {
       record = new Like({
-        userID: req.user.id,
+        userID: req.user._id,
         sotreID: req.body.sotreID,
       });
     }

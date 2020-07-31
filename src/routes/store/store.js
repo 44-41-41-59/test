@@ -14,7 +14,7 @@ function getAllStores(req, res, next) {
 // get all stores in the website
 function getOwnerAllStores(req, res, next) {
   store
-    .read({ ownerID: req.user.id })
+    .read({ ownerID: req.user._id })
     .then((data) => res.json({ count: data.length, results: data }))
     .catch(next);
 }

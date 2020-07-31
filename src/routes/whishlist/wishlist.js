@@ -13,7 +13,7 @@ async function getUserWishlist(req, res, next) {
 
 async function addProductsToWishlist(req, res, next) {
   let { productID } = req.body;
-  let userID = req.user.id;
+  let userID = req.user._id;
   try {
     let data = await wishlist.create({ userID, productID });
     res.json(data);

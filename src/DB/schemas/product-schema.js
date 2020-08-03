@@ -19,9 +19,8 @@ const product = Schema(
       type: Date,
       default: Date.now,
     },
-    // review: [{ type: Schema.Types.ObjectId, ref: 'review' }],
   },
-  { toJSON: { virtuals: true }, toObject: { virtuals: true } },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
 product.virtual('reviews', {

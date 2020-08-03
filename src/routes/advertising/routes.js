@@ -14,7 +14,7 @@ router
     let ids = recorde.map((obj) => obj._id);
     await Advertising.updateMany(
       { _id: { $in: ids } },
-      { $inc: { count: -1 } },
+      { $inc: { count: -1 } }
     );
     res.json(recorde);
   })

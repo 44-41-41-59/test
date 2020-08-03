@@ -26,7 +26,9 @@ const faker = require('faker');
 const cors = require('cors');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-
+// io.on('connection', (socket) => {
+//   console.log('dsfdfs');
+// });
 app.use(express.json());
 app.use(cors({ credentials: true }));
 app.use(morgan('dev'));
@@ -62,7 +64,6 @@ app.use(likes);
 app.use(search);
 app.use(user);
 
-
 app.use('*', notFound);
 app.use(errorHandeler);
 
@@ -70,6 +71,7 @@ module.exports = {
   io,
   server,
   start: (port) => {
+    // console.log(io);
     server.listen(port);
   },
 };

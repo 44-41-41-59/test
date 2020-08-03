@@ -5,7 +5,7 @@ const io = require('socket.io-client');
 const inquirer = require('inquirer');
 
 let room = uuid();
-const socket = io.connect('http://localhost:3000');
+const socket = io.connect('http://localhost:3001');
 socket.userid = uuid();
 socket.on('connect', async () => {
   let masseges = [];

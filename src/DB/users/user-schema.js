@@ -32,13 +32,13 @@ const user = Schema(
     },
     facebookID: { type: String },
     token: { type: String },
-    paymentsHistory: [{ type: Schema.Types.ObjectId, ref: 'paymintsHistory' }],
+    // paymentsHistory: [{ type: Schema.Types.ObjectId, ref: 'paymintsHistory' }],
     confirmed: { type: Boolean, default: false },
     resetToken: { type: String, default: '' },
     stores: {type: String}
   },
-  { toObject: { virtuals: true } },
-  { toJSON: { virtuals: true } }
+  { toObject: { virtuals: true } ,
+    toJSON: { virtuals: true } }
 );
 
 // reviews virtuals
@@ -80,6 +80,12 @@ user.virtual('favoriteStores', {
   foreignField: 'userID',
 });
 
+user.virtual('paymentsHistory', {
+  ref: 'paymentsHistory',
+  localField: '_id',
+  foreignField: 'userID',
+});
+
 // pre save hook for hashing the password before saving in database
 user.pre('save', async function (next) {
   try {
@@ -96,6 +102,11 @@ user.pre('save', async function (next) {
 user.post('save', async function (next) {
   await this.populate('acl').execPopulate();
   // next();
+});
+
+user.pre('find', function () {
+  this.populate('wishlist').populate('paymentsHistory');
+  // .populate('like');
 });
 
 // static method for user schema to authenticate the users

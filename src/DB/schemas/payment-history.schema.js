@@ -7,7 +7,10 @@ const paymentsHistory = Schema({
   productID: [{ type: Schema.Types.ObjectId, ref: 'product' }],
   cost: { type: Number },
 });
-
+paymentsHistory.pre('find', function (next) {
+  this.populate('productID');
+  next();
+});
 // when the user buy a product, it will create an instance for the payment history with the product ID and using virtuals it will get the whole product from the product collection.
 // then we will populate every store ordering collection with the orders.
 // since every product has unique ID so we don't have to add the store ID.

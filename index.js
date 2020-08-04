@@ -1,7 +1,7 @@
 'use strict';
 require('dotenv');
 const server = require('./src/server.js');
-// require('./src/socket.io/runTimeChat');
+require('./src/socket.io/runTimeChat');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3001;
 const MONGODB_URI =

@@ -48,7 +48,8 @@ class UserCollection {
         .populate('wishlist')
         .populate('review')
         .populate('productID')
-        .exec();
+        .populate('cart');
+        // .exec();
 
       if (record) {
         let valid = await this.schema.authenticateUser(

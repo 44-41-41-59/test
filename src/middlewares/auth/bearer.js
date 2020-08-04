@@ -1,5 +1,6 @@
 'use strict';
 const user = require('../../DB/users/user-schema.js');
+const { cart ,payment} = require('../../DB/collection-models');
 module.exports = (type) => {
   return async (req, res, next) => {
     try {
@@ -9,16 +10,22 @@ module.exports = (type) => {
           const [auth, token] = req.headers.authorization.split(' ');
           if (auth === 'Bearer' && token !== 'undefined') {
             let record = await user.authenticateToken(token);
+            let cartReacord = await cart.read({userID:record._id})
+            let paymentsHistory = await payment.read({userID:record._id})
+            console.log(paymentsHistory,'hello form the cart fixed')
             req.user = {
               username: record.username,
               acl: record.acl.capabilities,
               capabilities: record.acl.capabilities,
+              cart:cartReacord,
               _id: record._id,
               email: record.email,
               avatar: record.avatar,
               role: record.role,
               confirmed: record.confirmed,
               stores:record.stores,
+              wishlist:record.wishlist,
+              paymentsHistory,
             };
             next();
           } else {

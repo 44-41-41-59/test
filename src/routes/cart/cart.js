@@ -21,7 +21,7 @@ function deleteCart(req, res, next) {
   let cartID = req.params.id;
   // console.log(cartID);
   cart
-    .delete(cartID)
+    .delete({_id:cartID})
     .then((record) => {
       res.json(record);
     })

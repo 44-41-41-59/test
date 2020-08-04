@@ -6,7 +6,7 @@ let custmerRooms = {};
 io.on('connection', (socket) => {
   // console.log(socket.id);
   let { avatar, _id, username } = socket.handshake.query;
-  console.log('loggeduser => ', username, _id, avatar);
+  // console.log('loggeduser => ', username, _id, avatar);
   // will be emit when some error happend
   socket.on('error', (payload) => {
     console.log('error', payload);
@@ -16,7 +16,6 @@ io.on('connection', (socket) => {
     // the room will have an object with status (if there is a client with him or not) true is free and false is busy and the name of the admin
     socket.emit('agents in service', custmerRooms);
     for (const agent in custmerRooms) {
-      console.log('lloooppp', custmerRooms[agent].socketId);
       io.to(custmerRooms[agent].socketId).emit('agents is enter', {
         // status: true,
         username,
@@ -103,11 +102,8 @@ function checkFromTheQueueClients() {
     for (let room in custmerRooms) {
       // check for a free room with status of true
       if (custmerRooms[room].status) {
-        console.log(custmerRooms[room], 'sdasd');
         let { username, avatar, _id } = custmerRooms[room];
-        console.log(username, 'admin name');
         let message = `Welcom I'm ${username} Tell me how i can help?`;
-        console.log(message);
         let socket = clientsQueue.shift();
         // let the first client join the free room with the admin
         socket.join(room);

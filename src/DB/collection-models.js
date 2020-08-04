@@ -48,8 +48,8 @@ class CartModel extends Model {
   test(userID) {
     return this.schema.find({ userID }).populate('products');
   }
-  delete(userID) {
-    return this.schema.deleteMany({ userID }).populate('products');
+  delete(obj) {
+    return this.schema.deleteMany(obj).populate('products');
   }
 }
 

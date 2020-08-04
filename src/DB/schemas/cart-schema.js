@@ -11,5 +11,9 @@ Cart.pre('find', function (next) {
   this.populate('products');
   next();
 });
+Cart.post('save', async function (next) {
+  await this.populate('products').execPopulate();
+  // next();
+});
 
 module.exports = model('cart', Cart);

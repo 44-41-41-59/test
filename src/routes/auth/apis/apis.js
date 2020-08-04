@@ -8,7 +8,7 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET || 'daayMallToken';
 const bcrypt = require('bcryptjs');
-
+const { cart } = require('../../../DB/collection-models');
 /// the data that nodemailer need ot send the emails its your email and your password
 let transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -162,15 +162,28 @@ async function signup(req, res, next) {
 
 // sign in function
 async function signin(req, res, next) {
-  console.log(req.body, 'hellloooo');
   let record = await userCollection.read(req.body);
   if (typeof record !== 'string') {
     req.acl = {
       acl: record.acl.capabilities,
     };
     res.cookie('token', record.token);
-
-    res.json({ data: record, acl: req.acl });
+    let cartReacord = await cart.read({userID:record._id})
+    let data = {
+      token:record.token,
+      username: record.username,
+      acl: record.acl.capabilities,
+      capabilities: record.acl.capabilities,
+      cart:cartReacord,
+      _id: record._id,
+      email: record.email,
+      avatar: record.avatar,
+      role: record.role,
+      confirmed: record.confirmed,
+      stores:record.stores,
+    };
+    // res.json({...record,cart:cartReacord});
+    res.json({ data, acl: req.acl });
   } else {
     next(record);
   }

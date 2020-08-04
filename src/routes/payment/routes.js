@@ -13,7 +13,7 @@ router
   .post(bearer('registered'), permissions('checkoutCart'), pay);
 async function pay(req, res, next) {
   let { token, amount } = req.body;
-  console.log(token.email, token.id, 'jdfslkjkdlsf');
+  // console.log(token.email, token.id, 'jdfslkjkdlsf');
 
   // DONT DELETE Comment-----------------------------------------
 
@@ -36,7 +36,7 @@ async function pay(req, res, next) {
         let obj = {};
         let storeProductIDs = [];
         let cartArr = await cart.test(req.user._id); // array of object(cart based on user populated with products)
-        console.log(cartArr);
+        // console.log(cartArr);
         cartArr.forEach((element) => {
           storeProductIDs.push(element.products._id);
           amount += element.products.price;
@@ -44,6 +44,7 @@ async function pay(req, res, next) {
             obj[element.products.storeID].push(element.products._id);
           else obj[element.products.storeID] = [element.products._id]; // create array for the store to store the product ids
         });
+        // console.log(storeProductIDs,obj,'bsbsbsbsbsbsbsb moew')
         let savedPayment = await payment.create({
           //payment history for USER
           userID: req.user._id,
@@ -65,7 +66,7 @@ async function pay(req, res, next) {
           userID: req.user._id,
           orders: ordersIDs,
         });
-        await cart.delete(req.user._id);
+        await cart.delete({userID:req.user._id});
         res.json(cartArr);
       } catch (err) {
         next(err.message);

@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET || 'daayMallToken';
 const bcrypt = require('bcryptjs');
 const { cart,payment} = require('../../../DB/collection-models');
+const viewd = require('../../../DB/viewed/viewed-model')
 /// the data that nodemailer need ot send the emails its your email and your password
 let transporter = nodemailer.createTransport({
   service: 'gmail',

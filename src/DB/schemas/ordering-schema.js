@@ -7,10 +7,14 @@ const ordering = Schema({
   status: {
     type: String,
     default: 'waiting',
-    enum: ['waiting', 'delivered'],
+    enum: ['waiting', 'delivered','block'],
     required: true,
   },
   storeID: { type: Schema.Types.ObjectId },
+});
+ordering.pre('find',function(next){
+ this.populate('products').populate('userID')
+  next()
 });
 
 module.exports = model('order', ordering);

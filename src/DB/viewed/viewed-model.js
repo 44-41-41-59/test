@@ -6,9 +6,12 @@ class viewedModel {
   constructor(schema){
     this.schema=schema;
   }
-  create(record) {
+  async create(record) {
     let newRecord = new this.schema(record);
-    return newRecord.save();
+    return await newRecord.save();
+  }
+  async read(query){
+    return this.schema.find(query).populate('products');
   }
 }
 

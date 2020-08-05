@@ -1,6 +1,7 @@
 'use strict';
 const user = require('../../DB/users/user-schema.js');
 const { cart ,payment} = require('../../DB/collection-models');
+const viewd = require('../../DB/viewed/viewed-model')
 module.exports = (type) => {
   return async (req, res, next) => {
     try {
@@ -12,7 +13,7 @@ module.exports = (type) => {
             let record = await user.authenticateToken(token);
             let cartReacord = await cart.read({userID:record._id})
             let paymentsHistory = await payment.read({userID:record._id})
-            console.log(paymentsHistory,'hello form the cart fixed')
+            let views = await viewd.read({userID:record._id})
             req.user = {
               username: record.username,
               acl: record.acl.capabilities,
@@ -25,6 +26,7 @@ module.exports = (type) => {
               confirmed: record.confirmed,
               stores:record.stores,
               wishlist:record.wishlist,
+              views,
               paymentsHistory,
             };
             next();
@@ -42,17 +44,23 @@ module.exports = (type) => {
             const [auth, token] = req.headers.authorization.split(' ');
             if (auth === 'Bearer') {
               let record = await user.authenticateToken(token);
-
+              let cartReacord = await cart.read({userID:record._id})
+              let paymentsHistory = await payment.read({userID:record._id})
+              let views = await viewd.read({userID:record._id})
               req.user = {
                 username: record.username,
                 acl: record.acl.capabilities,
                 capabilities: record.acl.capabilities,
+                cart:cartReacord,
                 _id: record._id,
                 email: record.email,
                 avatar: record.avatar,
                 role: record.role,
                 confirmed: record.confirmed,
-                password: record.password,
+                stores:record.stores,
+                wishlist:record.wishlist,
+                views,
+                paymentsHistory,
               };
             } else {
               next({ status: 401, message: 'Invalid auth header' });

@@ -6,4 +6,5 @@ const ViwedProduct = Schema({
   products: { type: Schema.Types.ObjectId, ref: 'product' },
 });
 
+
 module.exports = model('viewedProduct', ViwedProduct);

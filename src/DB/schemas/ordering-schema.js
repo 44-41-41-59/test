@@ -13,8 +13,8 @@ const ordering = Schema({
   storeID: { type: Schema.Types.ObjectId },
 });
 ordering.pre('find',function(next){
- this.populate('products').populate('userID')
-  next()
+  this.populate('products').populate('userID');
+  next();
 });
 
 module.exports = model('order', ordering);

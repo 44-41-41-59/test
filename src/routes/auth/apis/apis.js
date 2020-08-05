@@ -8,7 +8,7 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET || 'daayMallToken';
 const bcrypt = require('bcryptjs');
-const { cart } = require('../../../DB/collection-models');
+const { cart,payment} = require('../../../DB/collection-models');
 /// the data that nodemailer need ot send the emails its your email and your password
 let transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -147,10 +147,29 @@ async function signup(req, res, next) {
       let mailRecorde = await transporter.sendMail(mailOptions);
       console.log('hello');
       let record = await userCollection.create(req.body);
+      let cartReacord = await cart.read({userID:record._id})
+      let paymentsHistory = await payment.read({userID:record._id})
+      let views = await viewd.read({userID:record._id})
+
+      let data = {
+        token:record.token,
+        username: record.username,
+        acl: record.acl.capabilities,
+        capabilities: record.acl.capabilities,
+        cart:cartReacord,
+        _id: record._id,
+        email: record.email,
+        avatar: record.avatar,
+        role: record.role,
+        confirmed: record.confirmed,
+        stores:record.stores,
+        views,
+        paymentsHistory
+      };
       req.acl = {
         acl: record.acl.capabilities,
       };
-      res.json({ data: record, acl: req.acl });
+      res.json({ data, acl: req.acl });
     } else {
       throw Error('user already signed up');
     }
@@ -169,6 +188,9 @@ async function signin(req, res, next) {
     };
     res.cookie('token', record.token);
     let cartReacord = await cart.read({userID:record._id})
+    let paymentsHistory = await payment.read({userID:record._id})
+    let views = await viewd.read({userID:record._id})
+
     let data = {
       token:record.token,
       username: record.username,
@@ -181,6 +203,8 @@ async function signin(req, res, next) {
       role: record.role,
       confirmed: record.confirmed,
       stores:record.stores,
+      views,
+      paymentsHistory
     };
     // res.json({...record,cart:cartReacord});
     res.json({ data, acl: req.acl });

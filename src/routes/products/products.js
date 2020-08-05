@@ -1,6 +1,7 @@
 'use strict';
 
 const { product } = require('../../DB/collection-models');
+const viewd = require('../../DB/viewed/viewed-model')
 const viewedModel = require('../../DB/viewed/viewed-model');
 
 // add products for each store by OWNER
@@ -32,22 +33,20 @@ async function getProducts(req, res, next) {
   };
   res.json(result);
 }
-
+ 
 // get one product by id by USER/OWNER
 async function getProductsById(req, res, next) {
   let products = await product.read({ _id: req.params.id });
+  const data = await product.update(req.params.id, {$inc: { views: 1 }});
   let result = {
     count: products.length,
     results: products,
   };
   if (req.user) {
     if (req.user._id) {
-      products.userID = req.user._id;
-      let viewed = await viewedModel.create(products);
-      // res.json(viewed);
+      let viewed = await viewedModel.create({userID:req.user._id,products:req.params.id});
     }
   }
-  console.log('hello from the get', products);
   res.json(products);
 }
 

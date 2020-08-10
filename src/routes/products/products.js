@@ -83,6 +83,7 @@ async function getStoreProducts(req, res, next) {
 }
 async function getMainProducts(req, res, next) {
   try {
+    console.log('haarrr you');
     let ranked = await product.rank();
     let onSale = await product.onSale();
     let newest = await product.newest();

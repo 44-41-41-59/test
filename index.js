@@ -5,7 +5,8 @@ require('./src/socket.io/runTimeChat');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3001;
 const MONGODB_URI =
-  process.env.MONGODB_URI || 'mongodb://localhost:27017/daay-mall';
+  process.env.MONGODB_URI || 'mongodb://localhost:27017/newdaaymall';
+
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

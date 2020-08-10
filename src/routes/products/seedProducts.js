@@ -4,21 +4,38 @@ const express = require('express');
 const router = express.Router();
 const { product } = require('../../DB/collection-models');
 // const fiftyProducts = require('./data/one.json');
-const oneAndFiftyOne = require('./data/two.json');
+// const oneAndFiftyOne = require('./data/two.json');
+const womensShoes = require('./data/womens-shoes.json');
+// const tshirts = require('./data/tshirts.json');
+// const office = require('./data/office-electronics.json');
+// const mother = require('./data/mother.json');
+// const dresses = require('./data/dresses.json');
+// const acces = require('./data/accessories.json');
+
+
+
+
+
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
 
 function seedProducts(req, res, next) {
   try {
-    let productsArr = oneAndFiftyOne.products;
+    let productsArr = womensShoes.products;
+
     for (let key in productsArr) {
       let record = {
         name: productsArr[key].title,
-        price: productsArr[key].variants[0].price,
-        images: productsArr[key].images[0].src,
-        amount: productsArr[key].variants[0].inventory_quantity,
+        price: getRandomInt(0,350),
+        images: [productsArr[key].images[0].src, productsArr[key].images[1].src, (productsArr[key].images[2])?((productsArr[key].images[3].src)):'', (productsArr[key].images[3])?(productsArr[key].images[3].src):''],
+        amount: getRandomInt(0,200),
         // description: '',
-        category: 'general',
-        // storeID: '5ef36c9b348f300017ae7091', // make it dynamic
-        storeID: '5f21d36d90b0e550c85ccc8d', // yazoooon
+        category: "Women's Shoes",
+        storeID: '5f2b27376984d3189b501a42',
         hidden: false,
       };
 

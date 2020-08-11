@@ -10,7 +10,6 @@ const store = new mongoose.Schema(
       type: String,
       required: true,
       toLowerCase: true,
-      enum: ['general', 'food'],
     },
     status: {
       type: String,
